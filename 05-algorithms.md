@@ -12,6 +12,10 @@
 
 ---
 
+> **GATE Weightage**: ~10-12% (10-12 marks) | **Expected Questions**: 5-7
+
+---
+
 # Complexity Analysis
 
 ## 1. Asymptotic Notations
@@ -725,3 +729,243 @@ To prove problem X is NP-Complete:
 6. Forgetting MST needs V-1 edges
 7. Using wrong recurrence for DP problems
 8. Confusing NP-Hard and NP-Complete
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Time Complexity Analysis** - 2-3 questions/year
+2. **Recurrence Relations** - 1-2 questions/year
+3. **Graph Algorithms (MST, Shortest Path)** - 2-3 questions/year
+4. **Dynamic Programming** - 2-3 questions/year
+5. **Greedy Algorithms** - 1-2 questions/year
+6. **Sorting Algorithms** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Complexity - GATE Pattern):**
+```c
+void fun(int n) {
+    int i, j, k;
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= i; j++)
+            for (k = 1; k <= 100; k++)
+                printf("*");
+}
+
+Solution:
+Total iterations = Σ(i=1 to n) Σ(j=1 to i) 100
+= 100 × Σ(i=1 to n) i
+= 100 × n(n+1)/2
+= 50n² + 50n = O(n²) ✓
+```
+
+**Problem 2 (Recurrence - GATE Pattern):**
+```
+Solve: T(n) = 2T(n/4) + √n
+
+Using Master Theorem:
+a = 2, b = 4, f(n) = n^(1/2)
+log_b(a) = log_4(2) = 1/2
+
+f(n) = Θ(n^(1/2)) = Θ(n^(log_b(a)))
+This is Case 2!
+
+T(n) = Θ(√n × log n) ✓
+```
+
+**Problem 3 (Shortest Path - GATE Pattern):**
+```
+Apply Dijkstra's algorithm from vertex A:
+
+      A --2-- B
+      |       |
+      4       1
+      |       |
+      C --3-- D
+
+Order of finalization: A(0) → B(2) → D(3) → C(4)
+Wait, let's recalculate:
+A = 0
+B = 2 (via A)
+C = 4 (via A)
+D = min(B+1, C+3) = 3 (via B)
+
+Final distances: A=0, B=2, C=4, D=3 ✓
+```
+
+**Problem 4 (DP - LCS - GATE Pattern):**
+```
+Find LCS length of "ABCDGH" and "AEDFHR"
+
+DP Table:
+    ""  A  E  D  F  H  R
+""   0  0  0  0  0  0  0
+A    0  1  1  1  1  1  1
+B    0  1  1  1  1  1  1
+C    0  1  1  1  1  1  1
+D    0  1  1  2  2  2  2
+G    0  1  1  2  2  2  2
+H    0  1  1  2  2  3  3
+
+LCS length = 3, LCS = "ADH" ✓
+```
+
+**Problem 5 (MST - Prim/Kruskal - GATE Pattern):**
+```
+Find MST weight for graph:
+A-B: 4, A-C: 2, B-C: 1, B-D: 5, C-D: 8, C-E: 10, D-E: 2
+
+Kruskal (sort edges):
+B-C: 1 ✓
+A-C: 2 ✓ 
+D-E: 2 ✓
+A-B: 4 (skip - cycle)
+B-D: 5 ✓
+
+MST edges: B-C, A-C, D-E, B-D
+Total weight = 1 + 2 + 2 + 5 = 10 ✓
+```
+
+**Problem 6 (Greedy - Activity Selection - GATE Pattern):**
+```
+Activities: (1,4), (3,5), (0,6), (5,7), (3,8), (5,9), (6,10), (8,11)
+Select maximum non-overlapping activities.
+
+Sort by finish time:
+(1,4), (3,5), (0,6), (5,7), (3,8), (5,9), (6,10), (8,11)
+
+Greedy selection:
+(1,4) ✓
+(5,7) ✓ (starts after 4)
+(8,11) ✓ (starts after 7)
+
+Maximum activities = 3 ✓
+```
+
+**Problem 7 (Topological Sort - GATE Pattern):**
+```
+Given DAG with edges: A→B, A→C, B→D, C→D, D→E, C→E
+
+Possible topological orders:
+A, B, C, D, E ✓
+A, C, B, D, E ✓
+
+Number of topological orderings = 2
+
+Using Kahn's algorithm (in-degree):
+Initial in-degrees: A=0, B=1, C=1, D=2, E=2
+Process A → B and C become 0
+Process B → D becomes 1
+Process C → D becomes 0, E becomes 1
+Process D → E becomes 0
+Process E
+```
+
+**Problem 8 (Quick Sort Partition - GATE Pattern):**
+```
+Partition array [10, 7, 8, 9, 1, 5] with last element as pivot.
+
+Pivot = 5
+i = -1
+
+j=0: 10 > 5, no swap
+j=1: 7 > 5, no swap
+j=2: 8 > 5, no swap
+j=3: 9 > 5, no swap
+j=4: 1 < 5, i=0, swap A[0] and A[4]
+     Array: [1, 7, 8, 9, 10, 5]
+
+Final: swap A[i+1] with pivot
+Array: [1, 5, 8, 9, 10, 7]
+
+Pivot index = 1 ✓
+```
+
+**Problem 9 (0/1 Knapsack - GATE Pattern):**
+```
+Items: weights = [2, 3, 4, 5], values = [3, 4, 5, 6]
+Capacity W = 5
+
+DP Table:
+    0  1  2  3  4  5
+0   0  0  0  0  0  0
+1   0  0  3  3  3  3
+2   0  0  3  4  4  7
+3   0  0  3  4  5  7
+4   0  0  3  4  5  7
+
+Maximum value = 7 (items with weights 2 and 3) ✓
+```
+
+**Problem 10 (Bellman-Ford - GATE Pattern):**
+```
+Detect if graph has negative cycle:
+A→B: 1, B→C: -1, C→A: -1
+
+After |V|-1 = 2 iterations from A:
+d[A]=0, d[B]=1, d[C]=0
+
+Third iteration check:
+Edge A→B: d[B] > d[A] + 1? No
+Edge B→C: d[C] > d[B] + (-1) = 0? No
+Edge C→A: d[A] > d[C] + (-1) = -1? Yes!
+
+Negative cycle detected! ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Master Theorem
+```
+T(n) = aT(n/b) + f(n)
+
+Compare f(n) with n^(log_b(a)):
+Case 1: f(n) = O(n^(log_b(a) - ε)) → T(n) = Θ(n^(log_b(a)))
+Case 2: f(n) = Θ(n^(log_b(a))) → T(n) = Θ(n^(log_b(a)) log n)
+Case 3: f(n) = Ω(n^(log_b(a) + ε)) → T(n) = Θ(f(n))
+```
+
+### Sorting Complexities
+```
+Comparison-based lower bound: Ω(n log n)
+Non-comparison (Counting, Radix, Bucket): O(n)
+
+Stable sorts: Merge, Insertion, Bubble, Counting, Radix
+In-place: Quick, Heap, Selection, Insertion, Bubble
+```
+
+### Graph Algorithms
+```
+BFS/DFS: O(V + E)
+Dijkstra (binary heap): O((V + E) log V)
+Bellman-Ford: O(VE)
+Floyd-Warshall: O(V³)
+Prim (binary heap): O((V + E) log V)
+Kruskal (Union-Find): O(E log E)
+Topological Sort: O(V + E)
+```
+
+### DP Problems
+```
+LCS: O(mn) time, O(mn) space
+LIS: O(n²) naive, O(n log n) optimal
+0/1 Knapsack: O(nW)
+Edit Distance: O(mn)
+Matrix Chain: O(n³)
+Coin Change: O(n × amount)
+```
+
+### NP-Completeness
+```
+P ⊆ NP
+NP-Complete = NP ∩ NP-Hard
+If any NP-Complete ∈ P, then P = NP
+
+Famous NP-Complete:
+SAT, 3-SAT, Vertex Cover, Clique, Independent Set,
+Hamiltonian Cycle, TSP (decision), Subset Sum, Graph Coloring
+```

@@ -11,6 +11,10 @@
 
 ---
 
+> **GATE Weightage**: ~5-8% (5-8 marks) | **Expected Questions**: 3-5
+
+---
+
 # Machine Instructions
 
 ## 1. Instruction Cycle
@@ -582,3 +586,155 @@ Nested interrupts: Higher priority can interrupt lower
 5. AMAT calculation: forgetting to multiply miss rate by penalty
 6. Confusing structural hazard (resource) with data hazard (dependency)
 7. Wrong speedup formula (non-pipelined time / pipelined time)
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Cache Mapping & AMAT** - 2-3 questions/year
+2. **Pipeline Speedup & Hazards** - 2 questions/year
+3. **Addressing Modes** - 1 question/year
+4. **Instruction Formats** - 1 question/year
+5. **DMA & I/O** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Cache - GATE Pattern):**
+```
+A 2-way set associative cache has 256 KB total size with 64-byte 
+block size. For a 32-bit address, find tag, index, and offset bits.
+
+Solution:
+Block size = 64B = 2^6 → Offset bits = 6
+Total blocks = 256KB / 64B = 4096 blocks
+Sets = 4096 / 2 = 2048 sets = 2^11 → Index bits = 11
+Tag bits = 32 - 11 - 6 = 15 bits ✓
+
+Address format: [Tag: 15 | Index: 11 | Offset: 6]
+```
+
+**Problem 2 (AMAT - GATE Pattern):**
+```
+L1 cache: hit time = 1 cycle, hit rate = 90%
+L2 cache: access time = 10 cycles, hit rate = 80%
+Memory: access time = 100 cycles
+Calculate AMAT.
+
+Solution:
+AMAT = L1_hit_time + L1_miss_rate × (L2_time + L2_miss_rate × Mem_time)
+AMAT = 1 + 0.1 × (10 + 0.2 × 100)
+AMAT = 1 + 0.1 × (10 + 20)
+AMAT = 1 + 0.1 × 30 = 1 + 3 = 4 cycles ✓
+```
+
+**Problem 3 (Pipeline - GATE Pattern):**
+```
+A 5-stage pipeline has:
+- 20% branches with 2-cycle penalty
+- 30% loads with 1-cycle stall (data hazard)
+Calculate effective CPI.
+
+Solution:
+CPI = Ideal CPI + Branch stalls + Data stalls
+CPI = 1 + (0.20 × 2) + (0.30 × 1)
+CPI = 1 + 0.4 + 0.3 = 1.7 ✓
+```
+
+**Problem 4 (Pipeline Speedup - GATE Pattern):**
+```
+Execute 100 instructions on a 5-stage pipeline. Each stage takes 2 ns.
+Compare with non-pipelined execution.
+
+Solution:
+Non-pipelined: 100 × 5 × 2 = 1000 ns
+Pipelined: (5 + 100 - 1) × 2 = 104 × 2 = 208 ns
+Speedup = 1000 / 208 = 4.81 ✓
+
+Maximum speedup = k = 5 (as n → ∞)
+```
+
+**Problem 5 (Cache Mapping - GATE Pattern):**
+```
+Direct mapped cache with 8 blocks, block size 4 words.
+Word address 29 maps to which cache block?
+
+Solution:
+Block address = Word address / Block size = 29 / 4 = 7
+Cache block = Block address mod Number of blocks = 7 mod 8 = 7 ✓
+```
+
+**Problem 6 (Addressing Mode - GATE Pattern):**
+```
+Instruction: ADD R1, (R2)+
+R2 = 1000, Memory[1000] = 50, R1 = 25
+After execution, what are R1 and R2?
+
+Solution:
+This is auto-increment addressing.
+1. Effective address = R2 = 1000
+2. Operand = Memory[1000] = 50
+3. R1 = R1 + 50 = 25 + 50 = 75
+4. R2 = R2 + 4 = 1004 (assuming word size = 4)
+
+R1 = 75, R2 = 1004 ✓
+```
+
+**Problem 7 (Virtual Memory - GATE Pattern):**
+```
+32-bit virtual address, 4KB page size, 4-byte page table entry.
+Calculate page table size.
+
+Solution:
+Page offset = log₂(4KB) = 12 bits
+Page number bits = 32 - 12 = 20 bits
+Number of pages = 2^20 = 1M pages
+Page table size = 1M × 4 bytes = 4 MB ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Cache Formulas
+```
+Block offset bits = log₂(block size)
+Index bits = log₂(number of sets)
+Tag bits = Address bits - Index bits - Offset bits
+Number of sets = Total blocks / Associativity
+Cache size = Number of sets × Associativity × Block size
+
+AMAT = Hit time + Miss rate × Miss penalty
+Hit rate = 1 - Miss rate
+```
+
+### Pipeline Formulas
+```
+Execution time = (k + n - 1) × cycle time
+Speedup = k × n / (k + n - 1)
+Maximum speedup = k (number of stages)
+Throughput = n / ((k + n - 1) × cycle time)
+CPI = 1 + Stall cycles per instruction
+```
+
+### Memory Formulas
+```
+Page table entries = 2^(page number bits)
+Page table size = Entries × Entry size
+Number of pages = Virtual address space / Page size
+Number of frames = Physical memory / Page size
+```
+
+### DMA and I/O
+```
+DMA transfer time = Setup time + (Data size / Bandwidth)
+Interrupt overhead = Context switch time × Number of interrupts
+Polling efficiency depends on polling frequency vs event frequency
+```
+
+### Instruction Format
+```
+Opcode bits = ⌈log₂(number of operations)⌉
+Register bits = ⌈log₂(number of registers)⌉
+Address bits = ⌈log₂(memory size in words)⌉
+```

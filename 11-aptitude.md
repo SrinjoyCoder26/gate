@@ -7,6 +7,10 @@
 
 ---
 
+> **GATE Weightage**: ~15% (15 marks) | **Expected Questions**: 10 (5×1 mark + 5×2 marks)
+
+---
+
 # Quantitative Aptitude
 
 ## 1. Number System
@@ -641,3 +645,297 @@ Approximations:
 6. Drawing family tree incorrectly
 7. Confusing rows/columns in tables
 8. Not checking all options in syllogisms
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Reading Comprehension** - 1-2 questions/year
+2. **Data Interpretation** - 1-2 questions/year
+3. **Percentages/Profit-Loss** - 1-2 questions/year
+4. **Time-Speed-Distance** - 1 question/year
+5. **Probability** - 1 question/year
+6. **Logical Reasoning** - 2-3 questions/year
+7. **Verbal Ability (Grammar/Vocab)** - 2-3 questions/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Percentage - GATE Pattern):**
+```
+A shopkeeper marks up goods by 40% and then offers 20% discount.
+What is the profit percentage?
+
+Solution:
+Let CP = 100
+MP = 100 + 40% = 140
+SP = 140 - 20% of 140 = 140 - 28 = 112
+
+Profit = 112 - 100 = 12
+Profit % = 12% ✓
+
+Formula: Net effect = (40 - 20 - (40×20)/100)% = (40-20-8)% = 12%
+```
+
+**Problem 2 (Time & Work - GATE Pattern):**
+```
+A can complete work in 12 days, B in 18 days.
+They work together for 4 days, then A leaves.
+How many more days will B take to finish?
+
+Solution:
+A's 1 day work = 1/12
+B's 1 day work = 1/18
+Combined = 1/12 + 1/18 = 5/36 per day
+
+Work done in 4 days = 4 × 5/36 = 20/36 = 5/9
+Remaining work = 1 - 5/9 = 4/9
+
+Time for B to complete 4/9 = (4/9) / (1/18) = 4/9 × 18 = 8 days ✓
+```
+
+**Problem 3 (Probability - GATE Pattern):**
+```
+Three unbiased coins are tossed. What is the probability of 
+getting at least 2 heads?
+
+Solution:
+Total outcomes = 2³ = 8
+Favorable outcomes:
+- Exactly 2 heads: HHT, HTH, THH = 3
+- Exactly 3 heads: HHH = 1
+Total favorable = 4
+
+P(at least 2 heads) = 4/8 = 1/2 ✓
+
+Using formula: P(X≥2) = C(3,2)(1/2)² + C(3,3)(1/2)³
+= 3×(1/4)×(1/2) + 1×(1/8) = 3/8 + 1/8 = 4/8 = 1/2
+```
+
+**Problem 4 (Mixture - GATE Pattern):**
+```
+A vessel contains 60 liters of milk. 12 liters is removed 
+and replaced with water. This is done 3 times.
+How much milk remains?
+
+Solution:
+After each operation, milk remaining = V × (1 - R/V)
+
+After 3 operations:
+Milk = 60 × (1 - 12/60)³
+= 60 × (48/60)³
+= 60 × (4/5)³
+= 60 × 64/125
+= 30.72 liters ✓
+```
+
+**Problem 5 (Time Speed Distance - GATE Pattern):**
+```
+A train 150m long passes a platform 350m long in 25 seconds.
+Find the speed of the train.
+
+Solution:
+Total distance = Train length + Platform length
+= 150 + 350 = 500 m
+
+Speed = Distance / Time = 500 / 25 = 20 m/s
+
+In km/hr = 20 × 18/5 = 72 km/hr ✓
+```
+
+**Problem 6 (Data Interpretation - GATE Pattern):**
+```
+Year    Sales (in crores)
+2018    120
+2019    150
+2020    135
+2021    180
+2022    200
+
+What is the CAGR (Compound Annual Growth Rate) from 2018 to 2022?
+
+Solution:
+CAGR = (Final/Initial)^(1/n) - 1
+= (200/120)^(1/4) - 1
+= (1.667)^0.25 - 1
+= 1.136 - 1
+= 0.136 = 13.6% ✓
+```
+
+**Problem 7 (Logical Reasoning - GATE Pattern):**
+```
+Statements:
+1. All doctors are engineers
+2. Some engineers are managers
+
+Conclusions:
+I. Some doctors are managers
+II. Some managers are engineers
+
+Solution:
+Using Venn diagrams:
+- All doctors inside engineers (D ⊂ E)
+- Some engineers overlap with managers (E ∩ M ≠ ∅)
+
+Conclusion I: Cannot be definitively concluded
+(Doctors may or may not be in the engineer-manager overlap)
+
+Conclusion II: Definitely true
+(Given directly in statement 2)
+
+Answer: Only II follows ✓
+```
+
+**Problem 8 (Coding-Decoding - GATE Pattern):**
+```
+If FRIEND = HUMJTK, then ENEMY = ?
+
+Solution:
+Analyze pattern:
+F(6) → H(8): +2
+R(18) → U(21): +3
+I(9) → M(13): +4
+E(5) → J(10): +5
+N(14) → T(20): +6
+D(4) → K(11): +7
+
+Pattern: Each letter shifted by increasing amounts (+2, +3, +4, +5, +6, +7)
+
+For ENEMY:
+E(5) + 2 = G(7)
+N(14) + 3 = Q(17)
+E(5) + 4 = I(9)
+M(13) + 5 = R(18)
+Y(25) + 6 = E(5) [wrapping: 25+6=31, 31-26=5]
+
+Answer: GQIRE ✓
+```
+
+**Problem 9 (Verbal - Sentence Correction - GATE Pattern):**
+```
+Identify the error:
+"Neither the teacher nor the students was present."
+
+Error: Subject-verb agreement
+Rule: With "neither...nor", verb agrees with the NEAREST subject.
+Nearest subject: "students" (plural) → verb should be "were"
+
+Correct: "Neither the teacher nor the students were present." ✓
+```
+
+**Problem 10 (Critical Reasoning - GATE Pattern):**
+```
+Statement: "Regular exercise leads to better health."
+
+Which of the following, if true, most weakens the argument?
+
+A) Some people who exercise regularly are healthy
+B) People who don't exercise can also be healthy
+C) Exercise requires time and discipline
+D) Some exercises can cause injuries
+
+Analysis:
+A) Supports the argument
+B) Shows exercise is not necessary, but doesn't weaken causation
+C) Irrelevant to the claim
+D) Weakens by showing exercise can have negative effects
+
+Answer: D ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Speed & Conversion
+```
+Speed = Distance / Time
+km/hr × 5/18 = m/s
+m/s × 18/5 = km/hr
+
+Relative speed (same direction): |S1 - S2|
+Relative speed (opposite): S1 + S2
+```
+
+### Percentages
+```
+% increase = (New - Old) / Old × 100
+% decrease = (Old - New) / Old × 100
+
+Successive changes: a% then b% → a + b + ab/100
+If same % up then down: Net loss = x²/100 %
+```
+
+### Interest
+```
+Simple Interest: SI = PRT/100
+Compound Interest: A = P(1 + R/100)^n
+
+CI - SI (2 years) = P(R/100)²
+CI - SI (3 years) = P(R/100)²(3 + R/100)
+```
+
+### Work
+```
+1/A + 1/B = 1/Total (for work rates)
+If A is x times efficient as B: Time ratio = 1:x
+
+Work = Rate × Time
+A does 1/x work per day → completes in x days
+```
+
+### Probability
+```
+P(A∪B) = P(A) + P(B) - P(A∩B)
+P(A∩B) = P(A) × P(B) [if independent]
+P(A|B) = P(A∩B) / P(B)
+
+n(E) = ways favorable
+n(S) = total outcomes
+P(E) = n(E) / n(S)
+```
+
+### Geometry
+```
+Triangle: Area = ½ × base × height = ½ × a × b × sin(C)
+Circle: Area = πr², Circumference = 2πr
+Cylinder: Volume = πr²h, Surface = 2πr(r+h)
+Sphere: Volume = (4/3)πr³, Surface = 4πr²
+```
+
+### Data Interpretation
+```
+CAGR = (Final/Initial)^(1/n) - 1
+Average = Sum / Count
+Percentage share = (Part/Whole) × 100
+Pie chart: Angle = (Value/Total) × 360°
+```
+
+---
+
+## 💡 Quick Tips for GATE Aptitude
+
+### Time Management
+```
+1-mark questions: ~1 minute each
+2-mark questions: ~2-3 minutes each
+Total time for aptitude: 15-20 minutes max
+```
+
+### Strategy
+```
+1. Attempt aptitude first (confidence boost)
+2. Reading comprehension: Read questions first
+3. Data interpretation: Check options before calculating
+4. Eliminate wrong options when stuck
+5. Never leave NAT questions blank
+```
+
+### Common Traps
+```
+- "At least one" vs "Exactly one"
+- "More than" vs "Not less than"  
+- Percentage OF vs Percentage MORE THAN
+- Average vs Weighted Average
+- Include/Exclude boundary values
+```

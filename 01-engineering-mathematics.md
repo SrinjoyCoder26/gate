@@ -8,6 +8,10 @@
 
 ---
 
+> **GATE Weightage**: ~13% (13 marks) | **Expected Questions**: 4-6
+
+---
+
 # Discrete Mathematics
 
 ## 1. Propositional Logic
@@ -585,3 +589,114 @@ Correlation:
 5. Not checking if events are independent before using P(A∩B) = P(A)×P(B)
 6. Forgetting to add +C in indefinite integrals
 7. Confusing eigenvalue and eigenvector
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Probability** (Bayes' theorem, conditional probability) - 2-3 questions/year
+2. **Graph Theory** (Euler path, chromatic number, trees) - 1-2 questions/year
+3. **Linear Algebra** (Eigenvalues, rank, system of equations) - 2-3 questions/year
+4. **Counting** (Permutations, combinations, recurrence) - 1-2 questions/year
+5. **Propositional Logic** (Equivalences, satisfiability) - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Probability - GATE 2019 Pattern):**
+```
+A bag contains 3 red, 4 blue, and 5 green balls. Two balls are drawn 
+without replacement. Find the probability that both balls are of different colors.
+
+Solution:
+P(different colors) = 1 - P(same color)
+P(same red) = (3/12)(2/11) = 6/132
+P(same blue) = (4/12)(3/11) = 12/132
+P(same green) = (5/12)(4/11) = 20/132
+P(same) = 38/132 = 19/66
+P(different) = 1 - 19/66 = 47/66 ✓
+```
+
+**Problem 2 (Linear Algebra - GATE Pattern):**
+```
+For what value of k does the system have infinitely many solutions?
+x + y + z = 6
+x + 2y + 3z = 10
+x + 2y + kz = 10
+
+Solution:
+For infinite solutions, Rank(A) = Rank([A|b]) < n
+From row operations: k = 3 (third row becomes 0)
+```
+
+**Problem 3 (Graph Theory - GATE Pattern):**
+```
+A connected planar graph has 9 vertices with degree 4 each. 
+Find the number of faces.
+
+Solution:
+Sum of degrees = 2E → 9 × 4 = 2E → E = 18
+Using Euler's formula: V - E + F = 2
+9 - 18 + F = 2 → F = 11 ✓
+```
+
+**Problem 4 (Combinatorics - GATE Pattern):**
+```
+In how many ways can 10 identical balls be distributed into 4 distinct boxes 
+such that no box is empty?
+
+Solution:
+First place 1 ball in each box: remaining 6 balls, 4 boxes
+Stars and bars: C(6 + 4 - 1, 4 - 1) = C(9, 3) = 84 ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Logic
+```
+p → q ≡ ¬p ∨ q ≡ ¬q → ¬p
+p ↔ q ≡ (p → q) ∧ (q → p)
+¬(p ∧ q) ≡ ¬p ∨ ¬q
+¬(p ∨ q) ≡ ¬p ∧ ¬q
+```
+
+### Counting
+```
+Permutations: P(n,r) = n!/(n-r)!
+Combinations: C(n,r) = n!/[r!(n-r)!]
+Derangements: D(n) ≈ n!/e
+Stars & Bars: C(n+r-1, r-1)
+```
+
+### Graphs
+```
+Σdegrees = 2|E|
+Tree: |E| = |V| - 1
+Planar: V - E + F = 2, E ≤ 3V - 6
+Chromatic: χ(Kn) = n, χ(Cn) = 2 (even), 3 (odd)
+Spanning trees in Kn = n^(n-2)
+```
+
+### Linear Algebra
+```
+Sum of eigenvalues = Trace(A)
+Product of eigenvalues = det(A)
+Rank + Nullity = n
+```
+
+### Probability
+```
+Bayes: P(A|B) = P(B|A)P(A)/P(B)
+E(aX+b) = aE(X) + b
+Var(aX+b) = a²Var(X)
+Binomial mean = np, variance = np(1-p)
+Poisson mean = variance = λ
+```
+
+### Calculus
+```
+L'Hôpital: lim f/g = lim f'/g'
+Taylor: f(x) = Σ f^(n)(a)(x-a)^n/n!
+```

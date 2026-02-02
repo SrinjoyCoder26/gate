@@ -11,6 +11,10 @@
 
 ---
 
+> **GATE Weightage**: ~8-10% (8-10 marks) | **Expected Questions**: 5-6
+
+---
+
 # Network Models
 
 ## 1. OSI Model
@@ -725,3 +729,308 @@ ALOHA: Pure S = Ge^(-2G), Slotted S = Ge^(-G)
 6. GBN retransmits all from error; SR retransmits only errored
 7. IPv6 is 128 bits, not 64
 8. DNS uses both TCP and UDP (UDP for queries, TCP for zone transfers)
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Subnetting & CIDR** - 2-3 questions/year
+2. **Sliding Window Protocols (GBN, SR)** - 1-2 questions/year
+3. **TCP Congestion Control** - 1-2 questions/year
+4. **Routing Algorithms** - 1 question/year
+5. **Error Detection (CRC)** - 1 question/year
+6. **Channel Capacity (Shannon/Nyquist)** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Subnetting - GATE Pattern):**
+```
+An organization is allotted 192.168.10.0/24.
+Create 6 subnets with at least 25 hosts each.
+
+Solution:
+Hosts needed: 25, so host bits = ⌈log₂(25+2)⌉ = 5 bits
+Available host bits: 32 - 24 = 8 bits
+Subnet bits: 8 - 5 = 3 bits (can create 2³ = 8 subnets) ✓
+
+New prefix: /24 + 3 = /27
+Each subnet: 2⁵ - 2 = 30 usable hosts ✓
+
+Subnets:
+192.168.10.0/27   (0-31, usable 1-30)
+192.168.10.32/27  (32-63, usable 33-62)
+192.168.10.64/27  (64-95, usable 65-94)
+192.168.10.96/27  (96-127, usable 97-126)
+192.168.10.128/27 (128-159, usable 129-158)
+192.168.10.160/27 (160-191, usable 161-190)
+```
+
+**Problem 2 (Sliding Window - GATE Pattern):**
+```
+Bandwidth = 1 Mbps
+Propagation delay = 25 ms
+Frame size = 1000 bits
+
+Find minimum window size for 100% efficiency.
+
+Solution:
+Transmission time (Tt) = 1000 / 1,000,000 = 1 ms
+Propagation time (Tp) = 25 ms
+RTT = 2 × Tp = 50 ms
+
+a = Tp / Tt = 25 / 1 = 25
+
+For 100% efficiency:
+Window size W ≥ 1 + 2a = 1 + 50 = 51
+
+Minimum W = 51 frames ✓
+
+For GBN: Sequence bits ≥ ⌈log₂(51+1)⌉ = 6 bits (max window = 63)
+For SR: Sequence bits ≥ ⌈log₂(2×51)⌉ = 7 bits (window = 51 ≤ 64)
+```
+
+**Problem 3 (TCP Congestion - GATE Pattern):**
+```
+Initial cwnd = 1 MSS, ssthresh = 32 MSS
+After 10 RTTs (no loss), what is cwnd?
+
+Solution:
+Slow Start: cwnd doubles each RTT until ssthresh
+RTT 1: cwnd = 2
+RTT 2: cwnd = 4
+RTT 3: cwnd = 8
+RTT 4: cwnd = 16
+RTT 5: cwnd = 32 (reached ssthresh)
+
+Congestion Avoidance: cwnd increases by 1 each RTT
+RTT 6: cwnd = 33
+RTT 7: cwnd = 34
+RTT 8: cwnd = 35
+RTT 9: cwnd = 36
+RTT 10: cwnd = 37
+
+cwnd after 10 RTTs = 37 MSS ✓
+```
+
+**Problem 4 (CRC - GATE Pattern):**
+```
+Data: 110101, Generator: 1011
+Calculate CRC and transmitted message.
+
+Solution:
+Append 3 zeros (degree of generator - 1): 110101000
+
+Division:
+110101000 ÷ 1011
+
+     110011
+    ________
+1011|110101000
+     1011
+     ----
+      1100
+      1011
+      ----
+       1111
+       1011
+       ----
+        1000
+        1011
+        ----
+         0110
+         0000
+         ----
+          1100
+          1011
+          ----
+           111 (remainder)
+
+CRC = 111
+Transmitted: 110101111 ✓
+```
+
+**Problem 5 (Shannon Capacity - GATE Pattern):**
+```
+Channel bandwidth = 4 KHz
+Signal-to-noise ratio = 1023
+
+Calculate maximum data rate.
+
+Solution:
+Using Shannon's formula:
+C = B × log₂(1 + S/N)
+C = 4000 × log₂(1024)
+C = 4000 × 10
+C = 40,000 bps = 40 Kbps ✓
+```
+
+**Problem 6 (ALOHA - GATE Pattern):**
+```
+Pure ALOHA system with 200 stations.
+Frame time = 1, each station sends at rate of 0.01 frames/time.
+
+Calculate throughput.
+
+Solution:
+G = λ × (number of stations) = 0.01 × 200 = 2
+
+Pure ALOHA: S = G × e^(-2G)
+S = 2 × e^(-4) = 2 × 0.0183 = 0.0366
+
+Throughput = 3.66%
+
+For comparison, Slotted ALOHA at G=1:
+S = 1 × e^(-1) = 0.368 = 36.8% ✓
+```
+
+**Problem 7 (Routing - Distance Vector - GATE Pattern):**
+```
+Router A's initial table:
+Dest | Cost | Next
+B    |  3   |  B
+C    |  7   |  C
+D    |  ∞   |  -
+
+Router A receives from B:
+Dest | Cost
+C    |  2
+D    |  5
+
+Update A's table:
+To C via B: 3 + 2 = 5 < 7 ✓ Update!
+To D via B: 3 + 5 = 8 < ∞ ✓ Update!
+
+New table:
+Dest | Cost | Next
+B    |  3   |  B
+C    |  5   |  B
+D    |  8   |  B ✓
+```
+
+**Problem 8 (Transmission vs Propagation - GATE Pattern):**
+```
+File size = 10 MB
+Link bandwidth = 100 Mbps
+Distance = 2500 km
+Propagation speed = 2.5 × 10⁸ m/s
+
+Find total time to transfer file.
+
+Solution:
+Transmission time = File size / Bandwidth
+= (10 × 8 × 10⁶) bits / (100 × 10⁶) bps
+= 80 × 10⁶ / 100 × 10⁶
+= 0.8 seconds = 800 ms
+
+Propagation time = Distance / Speed
+= (2500 × 10³) / (2.5 × 10⁸)
+= 10⁻² seconds = 10 ms
+
+Total time = 800 + 10 = 810 ms ✓
+```
+
+**Problem 9 (IPv4 Header - GATE Pattern):**
+```
+An IP datagram has 1000 bytes of data and 20 bytes header.
+MTU of next network is 400 bytes.
+
+How many fragments are created?
+
+Solution:
+Total size = 1020 bytes
+MTU = 400 bytes
+Header = 20 bytes per fragment
+Data per fragment = 400 - 20 = 380 bytes
+
+But data must be multiple of 8!
+Usable data = 376 bytes (nearest multiple of 8 below 380)
+
+Fragments needed = ⌈1000/376⌉ = ⌈2.66⌉ = 3 fragments
+
+Fragment 1: 376 bytes data + 20 header = 396 bytes, offset=0
+Fragment 2: 376 bytes data + 20 header = 396 bytes, offset=47 (376/8)
+Fragment 3: 248 bytes data + 20 header = 268 bytes, offset=94 ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Delays
+```
+Transmission delay (Tt) = Packet size / Bandwidth
+Propagation delay (Tp) = Distance / Propagation speed
+Queuing delay = Time in queue
+Processing delay = Time to process header
+
+Total delay = Tt + Tp + Queuing + Processing
+```
+
+### Efficiency
+```
+a = Tp / Tt (propagation to transmission ratio)
+
+Stop-and-Wait: η = 1 / (1 + 2a)
+Sliding Window: η = min(1, W / (1 + 2a))
+
+For 100% efficiency: W ≥ 1 + 2a
+```
+
+### Sliding Window Protocols
+```
+Go-Back-N:
+- Sender window: W = 2^n - 1
+- Receiver window: 1
+- On error: Retransmit from error frame
+
+Selective Repeat:
+- Sender window: W = 2^(n-1)
+- Receiver window: W = 2^(n-1)
+- On error: Retransmit only error frame
+```
+
+### IP Addressing
+```
+Hosts per subnet = 2^(32-prefix) - 2
+Network address: All host bits = 0
+Broadcast address: All host bits = 1
+Usable range: Network + 1 to Broadcast - 1
+
+Supernetting: Combine adjacent /n networks into /(n-1)
+Subnetting: Split /n network into 2^k /(n+k) networks
+```
+
+### Channel Capacity
+```
+Nyquist (noiseless): C = 2B × log₂L
+Shannon (noisy): C = B × log₂(1 + S/N)
+
+SNR in dB: SNR_dB = 10 × log₁₀(S/N)
+Convert: S/N = 10^(SNR_dB/10)
+```
+
+### TCP
+```
+Connection: SYN, SYN-ACK, ACK (3-way)
+Termination: FIN, ACK, FIN, ACK (4-way)
+
+Congestion Control:
+- Slow Start: cwnd doubles each RTT (exponential)
+- Congestion Avoidance: cwnd += 1 each RTT (linear)
+- On timeout: ssthresh = cwnd/2, cwnd = 1
+- On 3 dup ACKs: ssthresh = cwnd/2, cwnd = ssthresh
+```
+
+### CSMA
+```
+CSMA/CD (Ethernet):
+- Minimum frame = 2 × Propagation delay × Bandwidth
+- Slot time = 2 × Propagation time
+- Collision detection during transmission
+
+CSMA/CA (WiFi):
+- RTS/CTS for hidden terminal
+- ACK after every frame
+- No collision detection (full duplex impractical)
+```
