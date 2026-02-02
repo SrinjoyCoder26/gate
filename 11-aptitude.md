@@ -788,31 +788,27 @@ Answer: Only II follows ✓
 
 **Problem 8 (Coding-Decoding - GATE Pattern):**
 ```
-If COMPUTER = RFUVQNPC, then DATA = ?
+If FRIEND = HUMJTK, then ENEMY = ?
 
 Solution:
 Analyze pattern:
-C(3) → R(18): +15 or reverse from position
-O(15) → F(6): -9
-M(13) → U(21): +8
-P(16) → V(22): +6
-U(21) → Q(17): -4
-T(20) → N(14): -6
-E(5) → P(16): +11
-R(18) → C(3): -15
+F(6) → H(8): +2
+R(18) → U(21): +3
+I(9) → M(13): +4
+E(5) → J(10): +5
+N(14) → T(20): +6
+D(4) → K(11): +7
 
-Actually, let's check: COMPUTER reversed = RETUPMOC
-Then shifting... This is reverse + some shift pattern.
+Pattern: Each letter shifted by increasing amounts (+2, +3, +4, +5, +6, +7)
 
-For DATA:
-D(4), A(1), T(20), A(1)
-Reversed: ATAD
-A(1)+17=R(18)? Let me verify the pattern...
+For ENEMY:
+E(5) + 2 = G(7)
+N(14) + 3 = Q(17)
+E(5) + 4 = I(9)
+M(13) + 5 = R(18)
+Y(25) + 6 = E(5) [wrapping: 25+6=31, 31-26=5]
 
-Actually: COMPUTER in reverse is RETUPMOC
-R→C? That's -15 in alphabet
-
-This needs the actual GATE pattern. Answer likely: UZWB or similar ✓
+Answer: GQIRE ✓
 ```
 
 **Problem 9 (Verbal - Sentence Correction - GATE Pattern):**

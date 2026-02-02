@@ -798,13 +798,13 @@ Gantt Chart:
 |   P1   |  P2  |  P4   |    P3    |
 0        8     12      17        26
 
-Waiting times:
-P1: 0 - 0 = 0
-P2: 8 - 1 = 7
-P3: 17 - 2 = 15
-P4: 12 - 3 = 9
+Waiting times (Waiting = Start - Arrival):
+P1: 0 - 0 = 0     (arrived at 0, started at 0)
+P2: 8 - 1 = 7     (arrived at 1, started at 8)
+P4: 12 - 3 = 9    (arrived at 3, started at 12)
+P3: 17 - 2 = 15   (arrived at 2, started at 17)
 
-Average WT = (0 + 7 + 15 + 9) / 4 = 31/4 = 7.75 ✓
+Average WT = (0 + 7 + 9 + 15) / 4 = 31/4 = 7.75 ✓
 ```
 
 **Problem 2 (Round Robin - GATE Pattern):**
