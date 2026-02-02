@@ -10,6 +10,10 @@
 
 ---
 
+> **GATE Weightage**: ~3-5% (3-5 marks) | **Expected Questions**: 2-3
+
+---
+
 # Number Systems
 
 ## 1. Conversions
@@ -514,3 +518,150 @@ Where n = number of flip-flops
 5. Forgetting that Moore outputs are delayed by 1 clock vs Mealy
 6. Mixing up encoder and decoder
 7. 2's complement range asymmetry (-8 to +7 for 4 bits)
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **K-Map Minimization** - 1-2 questions/year
+2. **Number System Conversions** - 1 question/year
+3. **Flip-Flop Excitation Tables** - 1 question/year
+4. **Counter Design** - 1 question/year
+5. **MUX/Decoder Implementation** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (K-Map - GATE Pattern):**
+```
+Minimize F(A,B,C,D) = Σm(0,1,2,5,8,9,10) with don't cares d(3,11,15)
+
+Solution:
+Draw 4-variable K-map:
+        CD=00  CD=01  CD=11  CD=10
+AB=00     1      1      X      1
+AB=01     0      1      0      0
+AB=11     0      0      X      0
+AB=10     1      1      X      1
+
+Grouping:
+- Group m0,m1,m8,m9 with d3,d11: B'D' (4 cells vertically)
+- Group m0,m2,m8,m10: C'D' (4 corner cells)
+- Group m1,m5: A'B'D
+
+F = B'D' + C'D' + A'B'D
+Or simplified: F = B'C' + B'D' + A'B'D ✓
+```
+
+**Problem 2 (Counter - GATE Pattern):**
+```
+Design a Mod-6 synchronous counter using JK flip-flops.
+
+Solution:
+States: 000 → 001 → 010 → 011 → 100 → 101 → 000
+Present  Next   J2 K2  J1 K1  J0 K0
+Q2Q1Q0  Q2Q1Q0
+000     001     0  X   0  X   1  X
+001     010     0  X   1  X   X  1
+010     011     0  X   X  0   1  X
+011     100     1  X   X  1   X  1
+100     101     X  0   0  X   1  X
+101     000     X  1   0  X   X  1
+
+From K-maps:
+J2 = Q1Q0, K2 = Q0
+J1 = Q2'Q0, K1 = Q0
+J0 = 1, K0 = 1
+```
+
+**Problem 3 (MUX Implementation - GATE Pattern):**
+```
+Implement F(A,B,C) = Σm(1,2,6,7) using a 4:1 MUX with A,B as select lines.
+
+Solution:
+Create truth table with A,B as select, find C input:
+A=0,B=0: m0=0, m1=1 → output depends on C → Input = C
+A=0,B=1: m2=1, m3=0 → output depends on C' → Input = C'
+A=1,B=0: m4=0, m5=0 → output = 0 → Input = 0
+A=1,B=1: m6=1, m7=1 → output = 1 → Input = 1
+
+MUX inputs: I0=C, I1=C', I2=0, I3=1 ✓
+```
+
+**Problem 4 (Number System - GATE Pattern):**
+```
+What is the 2's complement representation of -43 in 8 bits?
+
+Solution:
+43 in binary = 00101011
+1's complement = 11010100
+2's complement = 11010101 ✓
+
+Verification: 256 - 43 = 213 = 11010101
+```
+
+**Problem 5 (Sequential Circuit - GATE Pattern):**
+```
+A Moore machine has input X and output Z. Z=1 if input sequence 
+ends in "101". Find minimum number of states.
+
+Solution:
+States needed to remember:
+- S0: Initial/no relevant history
+- S1: Seen "1"
+- S2: Seen "10"
+- S3: Seen "101" (output Z=1)
+
+Minimum states = 4
+
+For Mealy machine, same problem needs only 3 states.
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Number Systems
+```
+2's complement of N (n bits): 2^n - N
+Range of 2's complement: -2^(n-1) to 2^(n-1) - 1
+Range of unsigned: 0 to 2^n - 1
+```
+
+### Boolean Algebra
+```
+Absorption: A + AB = A, A(A+B) = A
+Consensus: AB + A'C + BC = AB + A'C
+De Morgan: (A+B)' = A'B', (AB)' = A'+B'
+```
+
+### K-Map Grouping
+```
+Group of 1: 4 variables remain
+Group of 2: 3 variables remain  
+Group of 4: 2 variables remain
+Group of 8: 1 variable remains
+Group of 16: 0 variables (constant 1 or 0)
+```
+
+### Counters
+```
+Mod-N counter FFs needed: ⌈log₂N⌉
+Ring counter: N states needs N FFs
+Johnson counter: 2N states needs N FFs
+Max frequency (ripple): f_max = 1/(n × t_propagation)
+```
+
+### Flip-Flop Conversions
+```
+D = Q+ (next state)
+T = Q ⊕ Q+ (toggle when different)
+JK: J = Q+, K = Q+'  (most flexible)
+```
+
+### Gate Counts
+```
+2:1 MUX gates: 3 (2 AND, 1 OR) + 1 NOT = 4
+4:1 MUX: Uses 3 × 2:1 MUX
+Full Adder: 2 XOR + 2 AND + 1 OR (for sum and carry)
+```

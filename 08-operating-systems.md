@@ -11,6 +11,10 @@
 
 ---
 
+> **GATE Weightage**: ~8-10% (8-10 marks) | **Expected Questions**: 5-6
+
+---
+
 # Process Management
 
 ## 1. Process Concepts
@@ -768,3 +772,256 @@ EAT = (1 - p) × mem_time + p × fault_time
 6. FIFO page replacement can cause Belady's anomaly
 7. LRU needs to track access history
 8. SCAN goes to the end, LOOK doesn't
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **CPU Scheduling (FCFS, SJF, RR)** - 2-3 questions/year
+2. **Page Replacement (FIFO, LRU, Optimal)** - 2 questions/year
+3. **Deadlock (Banker's Algorithm, RAG)** - 1-2 questions/year
+4. **Synchronization (Semaphores)** - 1-2 questions/year
+5. **Virtual Memory (Page Table)** - 1 question/year
+6. **Disk Scheduling** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (CPU Scheduling - GATE Pattern):**
+```
+Processes: P1(0,8), P2(1,4), P3(2,9), P4(3,5)
+Format: (Arrival, Burst)
+
+Calculate average waiting time for SJF (non-preemptive):
+
+Gantt Chart:
+|   P1   |  P2  |  P4   |    P3    |
+0        8     12      17        26
+
+Waiting times:
+P1: 0 - 0 = 0
+P2: 8 - 1 = 7
+P3: 17 - 2 = 15
+P4: 12 - 3 = 9
+
+Average WT = (0 + 7 + 15 + 9) / 4 = 31/4 = 7.75 ✓
+```
+
+**Problem 2 (Round Robin - GATE Pattern):**
+```
+Processes: P1(0,5), P2(1,3), P3(2,6), P4(3,1)
+Time Quantum = 2
+
+Gantt Chart:
+|P1|P2|P3|P4|P1|P2|P3|P1|P3|
+0  2  4  6  7  9 10 12 13 15
+
+Completion times: P1=13, P2=10, P3=15, P4=7
+
+Turnaround times:
+P1: 13-0=13, P2: 10-1=9, P3: 15-2=13, P4: 7-3=4
+
+Average TAT = (13+9+13+4)/4 = 39/4 = 9.75 ✓
+```
+
+**Problem 3 (Page Replacement - GATE Pattern):**
+```
+Reference string: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5
+Frames = 3
+
+FIFO:
+[1] [1,2] [1,2,3] [4,2,3] [4,1,3] [4,1,2] [5,1,2] 
+[5,1,2] [5,1,2] [5,3,2] [5,3,4] [5,3,4]
+Page faults = 9
+
+LRU:
+[1] [1,2] [1,2,3] [4,2,3] [4,1,3] [4,1,2] [5,1,2]
+[5,1,2] [5,1,2] [3,1,2] [3,4,2] [5,4,2]
+Page faults = 10
+
+Optimal:
+[1] [1,2] [1,2,3] [4,2,3] [4,1,3] [4,1,2] [4,1,5]
+[4,1,5] [4,1,2] [4,3,2] [4,3,2] [5,3,2]
+Page faults = 7
+
+Optimal < FIFO < LRU (for this case) ✓
+```
+
+**Problem 4 (Banker's Algorithm - GATE Pattern):**
+```
+Available: (3, 3, 2)
+
+Process | Max     | Allocation | Need
+--------|---------|------------|------
+P0      | 7,5,3   | 0,1,0      | 7,4,3
+P1      | 3,2,2   | 2,0,0      | 1,2,2
+P2      | 9,0,2   | 3,0,2      | 6,0,0
+P3      | 2,2,2   | 2,1,1      | 0,1,1
+P4      | 4,3,3   | 0,0,2      | 4,3,1
+
+Is system in safe state?
+
+Work = (3,3,2)
+P1: Need(1,2,2) ≤ Work? Yes. Work += Alloc = (5,3,2)
+P3: Need(0,1,1) ≤ Work? Yes. Work += Alloc = (7,4,3)
+P4: Need(4,3,1) ≤ Work? Yes. Work += Alloc = (7,4,5)
+P0: Need(7,4,3) ≤ Work? Yes. Work += Alloc = (7,5,5)
+P2: Need(6,0,0) ≤ Work? Yes. Work += Alloc = (10,5,7)
+
+Safe sequence: <P1, P3, P4, P0, P2> ✓
+```
+
+**Problem 5 (Semaphore - GATE Pattern):**
+```c
+// Initial values: S1 = 0, S2 = 0
+// What does this achieve?
+
+Process P1:        Process P2:
+  Statement A        wait(S1)
+  signal(S1)         Statement C
+  wait(S2)           signal(S2)
+  Statement B        
+                   
+Execution order constraints:
+- A executes before C (S1 controls this)
+- C executes before B (S2 controls this)
+
+Guaranteed order: A → C → B ✓
+```
+
+**Problem 6 (Disk Scheduling - GATE Pattern):**
+```
+Disk queue: 98, 183, 37, 122, 14, 124, 65, 67
+Initial position: 53, Total cylinders: 0-199
+
+SSTF (Shortest Seek Time First):
+53 → 65(12) → 67(2) → 37(30) → 14(23) → 98(84) 
+→ 122(24) → 124(2) → 183(59)
+Total = 12+2+30+23+84+24+2+59 = 236 ✓
+
+SCAN (moving up):
+53 → 65 → 67 → 98 → 122 → 124 → 183 → 199 
+→ 37 → 14
+Total = 146 + 16 + 185 = 322
+
+Wait, let me recalculate SCAN:
+53 → 65(12) → 67(2) → 98(31) → 122(24) → 124(2) 
+→ 183(59) → 199(16) → 37(162) → 14(23)
+Total = 12+2+31+24+2+59+16+162+23 = 331 ✓
+```
+
+**Problem 7 (Page Table Size - GATE Pattern):**
+```
+Virtual address: 32 bits
+Page size: 4 KB
+Page table entry: 4 bytes
+
+Solution:
+Page offset bits = log₂(4KB) = 12 bits
+Page number bits = 32 - 12 = 20 bits
+Number of pages = 2²⁰ = 1M pages
+Page table size = 1M × 4 bytes = 4 MB ✓
+
+For multi-level paging (2 levels, 10 bits each):
+First level table: 2¹⁰ × 4 = 4 KB
+Each second level table: 2¹⁰ × 4 = 4 KB
+Maximum second level tables: 2¹⁰ = 1024
+```
+
+**Problem 8 (TLB - GATE Pattern):**
+```
+TLB access time: 10 ns
+Memory access time: 100 ns
+TLB hit ratio: 90%
+Page fault rate: 5%
+Page fault service time: 10 ms
+
+Calculate effective memory access time.
+
+Solution:
+EAT = TLB_hit_rate × (TLB_time + Mem_time) 
+    + TLB_miss_rate × (TLB_time + 2×Mem_time)
+    
+Without page faults:
+EAT = 0.9 × (10+100) + 0.1 × (10+200)
+EAT = 0.9 × 110 + 0.1 × 210
+EAT = 99 + 21 = 120 ns
+
+With page faults (on successful TLB accesses):
+Actual EAT = (1-0.05) × 120 + 0.05 × 10,000,000
+           = 114 + 500,000 = 500,114 ns ≈ 0.5 ms ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### CPU Scheduling
+```
+Turnaround Time = Completion - Arrival
+Waiting Time = Turnaround - Burst
+Response Time = First_Run - Arrival
+Throughput = Processes / Total_Time
+
+Round Robin context switches = n-1 minimum
+(where n = number of processes)
+```
+
+### Virtual Memory
+```
+Page table entries = 2^(page_number_bits)
+Page number bits = address_bits - offset_bits
+Offset bits = log₂(page_size)
+
+EAT = (1-p) × mem_time + p × page_fault_time
+where p = page fault rate
+
+TLB: Hit = TLB_time + Mem_time
+     Miss = TLB_time + 2×Mem_time
+```
+
+### Paging
+```
+Physical address = Frame_number × Page_size + Offset
+Logical address = Page_number × Page_size + Offset
+
+Number of frames = Physical_memory / Page_size
+Number of pages = Virtual_address_space / Page_size
+```
+
+### Deadlock
+```
+Necessary conditions: Mutual Exclusion, Hold & Wait,
+                     No Preemption, Circular Wait
+
+Banker's Algorithm:
+Need = Max - Allocation
+Safe if: Can find sequence where Need ≤ Available
+
+Resources for no deadlock: 
+Maximum = Σ(Max_i) - n + 1 (for n processes)
+```
+
+### Disk Scheduling
+```
+Seek time = |Current - Target| × seek_rate
+Rotational latency = (1/2) × (1/RPM) × 60 seconds
+Transfer time = Data_size / Transfer_rate
+
+FCFS: Simple, no starvation
+SSTF: Optimal seek, starvation possible
+SCAN: Elevator algorithm, no starvation
+C-SCAN: Uniform wait, no starvation
+```
+
+### Synchronization
+```
+Semaphore:
+wait(S): while(S≤0); S--;
+signal(S): S++;
+
+Binary semaphore: S ∈ {0, 1}
+Counting semaphore: S ∈ {0, 1, 2, ...}
+
+Mutex = Binary semaphore for mutual exclusion
+```

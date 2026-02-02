@@ -10,6 +10,10 @@
 
 ---
 
+> **GATE Weightage**: ~6-8% (6-8 marks) | **Expected Questions**: 4-5
+
+---
+
 # Finite Automata
 
 ## 1. Deterministic Finite Automata (DFA)
@@ -665,3 +669,246 @@ Is it decidable?
 5. Confusing decidable (always halts) with semi-decidable (may loop)
 6. Not all CFLs are DCFLs (palindromes need NPDA)
 7. Rice's theorem only for language properties, not TM properties
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **DFA/NFA Construction & Minimization** - 2-3 questions/year
+2. **Regular Expressions** - 1-2 questions/year
+3. **Pumping Lemma** - 1 question/year
+4. **CFG/CFL Properties** - 1-2 questions/year
+5. **Decidability** - 1 question/year
+6. **Turing Machines** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (DFA - GATE Pattern):**
+```
+Construct minimum DFA for strings over {0,1} with:
+- Number of 0s is divisible by 2, AND
+- Number of 1s is divisible by 3
+
+Solution:
+Need to track (0s mod 2, 1s mod 3)
+States: (0,0), (0,1), (0,2), (1,0), (1,1), (1,2)
+
+Minimum states = 2 × 3 = 6 states
+
+Start: (0,0)
+Final: (0,0)
+
+Transitions:
+(i,j) on 0 → ((i+1)mod2, j)
+(i,j) on 1 → (i, (j+1)mod3)
+```
+
+**Problem 2 (NFA to DFA - GATE Pattern):**
+```
+NFA: States {q0, q1, q2}, Start: q0, Final: q2
+Transitions: 
+δ(q0, a) = {q0, q1}
+δ(q0, b) = {q0}
+δ(q1, b) = {q2}
+
+Subset construction:
+[q0] --a--> [q0,q1]  --b--> [q0,q2]*
+[q0] --b--> [q0]
+[q0,q1] --a--> [q0,q1]  
+[q0,q1] --b--> [q0,q2]*
+[q0,q2] --a--> [q0,q1]
+[q0,q2] --b--> [q0]
+
+DFA states: {[q0], [q0,q1], [q0,q2]*}
+Minimum DFA = 3 states ✓
+```
+
+**Problem 3 (Regular Expression - GATE Pattern):**
+```
+Write RE for strings over {a,b} NOT containing "aa".
+
+Solution:
+Can have: single a followed by b(s), or just b(s)
+Pattern: (b + ab)*(a + ε)
+
+Or equivalently: b*(ab+b)*a? 
+Or: (b + ab)*(ε + a) ✓
+
+Verification:
+✓ ε (empty)
+✓ a 
+✓ b
+✓ ab
+✓ ba
+✓ aba
+✗ aa (rejected - correct!)
+```
+
+**Problem 4 (Pumping Lemma - GATE Pattern):**
+```
+Prove L = {aⁿbⁿcⁿ | n ≥ 0} is not context-free.
+
+Proof:
+Assume L is CFL. Let p be pumping length.
+Choose w = aᵖbᵖcᵖ ∈ L, |w| = 3p ≥ p
+
+For any division w = uvxyz with |vxy| ≤ p, |vy| > 0:
+- vxy cannot contain both a's and c's (|vxy| ≤ p)
+- So vy contains at most 2 types of symbols
+
+Pumping: uv²xy²z will have unequal counts of a, b, c
+Therefore, uv²xy²z ∉ L
+
+Contradiction! L is not CFL. ✓
+```
+
+**Problem 5 (CFG - GATE Pattern):**
+```
+Convert to CNF: S → aAB | bBA, A → aS | a, B → bS | b
+
+Step 1: Remove ε-productions (none here)
+Step 2: Remove unit productions (none here)
+Step 3: Replace terminals in long productions
+  Introduce: Ca → a, Cb → b
+  
+Step 4: Convert to binary productions
+S → CaX1 | CbX2 where X1 → AB, X2 → BA
+A → CaS | a
+B → CbS | b
+
+CNF:
+S → CaX1 | CbX2
+X1 → AB
+X2 → BA
+A → CaS | a
+B → CbS | b
+Ca → a
+Cb → b ✓
+```
+
+**Problem 6 (Decidability - GATE Pattern):**
+```
+Which of the following is decidable?
+
+a) Is L(M) = Σ* for TM M?
+b) Is L(M) empty for TM M?
+c) Is L(G) empty for CFG G?
+d) Is L(M) regular for TM M?
+
+Solution:
+a) Undecidable (Rice's theorem - non-trivial property)
+b) Undecidable (Rice's theorem)
+c) ✓ Decidable! (Check if start symbol generates anything)
+d) Undecidable (Rice's theorem)
+
+Answer: c ✓
+```
+
+**Problem 7 (Minimum States - GATE Pattern):**
+```
+Minimum DFA states for language:
+"Strings over {a,b} where 3rd symbol from end is 'a'"
+
+Solution:
+Need to remember last 3 symbols.
+Each position can be 'a' or 'b'.
+States = 2³ = 8 states
+
+For "nth symbol from end is 'a'" → 2ⁿ states ✓
+```
+
+**Problem 8 (Closure Properties - GATE Pattern):**
+```
+If L1 is regular and L2 is CFL, which is always CFL?
+
+a) L1 ∩ L2
+b) L1 ∪ L2
+c) L1 - L2
+d) L2 - L1
+
+Solution:
+a) ✓ CFL (CFL ∩ Regular = CFL)
+b) ✓ CFL (CFL ∪ Regular ⊆ CFL)
+c) May not be CFL
+d) ✓ CFL (L2 ∩ L1' where L1' is regular)
+
+All except c are always CFL.
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### DFA/NFA State Counts
+```
+Minimum DFA for:
+- Strings divisible by n: n states
+- nth symbol from end = a: 2ⁿ states
+- Contains substring w (length k): k+1 states
+- Ends with substring w: |w|+1 states
+```
+
+### Language Hierarchy
+```
+Regular ⊂ DCFL ⊂ CFL ⊂ CSL ⊂ RE ⊂ All Languages
+
+Machine equivalence:
+Regular = DFA = NFA = RE = Right-linear grammar
+CFL = NPDA = CFG
+CSL = LBA
+RE = TM
+```
+
+### Closure Properties
+```
+Operation    | Regular | CFL  | CSL  | RE
+-------------|---------|------|------|-----
+Union        |   ✓     |  ✓   |  ✓   |  ✓
+Intersection |   ✓     |  ✗   |  ✓   |  ✓
+Complement   |   ✓     |  ✗   |  ✓   |  ✗
+Concatenation|   ✓     |  ✓   |  ✓   |  ✓
+Kleene Star  |   ✓     |  ✓   |  ✓   |  ✓
+Homomorphism |   ✓     |  ✓   |  ?   |  ✓
+
+Special: CFL ∩ Regular = CFL
+         DCFL is closed under complement
+```
+
+### Decidability Table
+```
+Problem          | Regular | CFL  | CSL  | RE
+-----------------|---------|------|------|-----
+Membership       |   ✓     |  ✓   |  ✓   |  ~
+Emptiness        |   ✓     |  ✓   |  ✗   |  ✗
+Finiteness       |   ✓     |  ✓   |  ✗   |  ✗
+Equivalence      |   ✓     |  ✗   |  ✗   |  ✗
+Ambiguity        |   N/A   |  ✗   |  ✗   |  ✗
+Universality     |   ✓     |  ✗   |  ✗   |  ✗
+
+✓ = Decidable, ✗ = Undecidable, ~ = Semi-decidable
+```
+
+### Pumping Lemmas
+```
+Regular (|w| ≥ p):
+w = xyz where |xy| ≤ p, |y| > 0
+xy^i z ∈ L for all i ≥ 0
+
+CFL (|w| ≥ p):
+w = uvxyz where |vxy| ≤ p, |vy| > 0
+uv^i xy^i z ∈ L for all i ≥ 0
+```
+
+### Grammar Forms
+```
+CNF (Chomsky Normal Form):
+A → BC or A → a or S → ε
+
+GNF (Greibach Normal Form):
+A → aα where α ∈ (non-terminals)*
+
+For n-length string w:
+CYK with CNF: O(n³) time
+Number of derivation steps: 2n-1
+```

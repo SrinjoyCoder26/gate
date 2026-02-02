@@ -10,6 +10,10 @@
 
 ---
 
+> **GATE Weightage**: ~5-6% (5-6 marks) | **Expected Questions**: 3-4
+
+---
+
 # Compiler Overview
 
 ## 💡 Phases of Compiler
@@ -637,3 +641,277 @@ LR(1) → Most powerful, most states
 5. SLR uses FOLLOW for reduce, CLR uses lookahead
 6. Synthesized flows up, inherited flows down
 7. Left recursion causes infinite loop in recursive descent
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **FIRST and FOLLOW Sets** - 2-3 questions/year
+2. **LL(1)/LR Parsing Tables** - 1-2 questions/year
+3. **Left Recursion Elimination** - 1 question/year
+4. **Grammar Ambiguity** - 1 question/year
+5. **SDT (Synthesized/Inherited Attributes)** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (FIRST & FOLLOW - GATE Pattern):**
+```
+Grammar:
+E → TE'
+E' → +TE' | ε
+T → FT'
+T' → *FT' | ε
+F → (E) | id
+
+Calculate FIRST and FOLLOW sets:
+
+FIRST(F) = {(, id}
+FIRST(T') = {*, ε}
+FIRST(T) = {(, id}
+FIRST(E') = {+, ε}
+FIRST(E) = {(, id}
+
+FOLLOW(E) = {$, )}
+FOLLOW(E') = {$, )}
+FOLLOW(T) = {+, $, )}
+FOLLOW(T') = {+, $, )}
+FOLLOW(F) = {*, +, $, )} ✓
+```
+
+**Problem 2 (LL(1) Parsing - GATE Pattern):**
+```
+Construct LL(1) parsing table for:
+S → aABb
+A → c | ε
+B → d | ε
+
+FIRST(S) = {a}
+FIRST(A) = {c, ε}
+FIRST(B) = {d, ε}
+
+FOLLOW(S) = {$}
+FOLLOW(A) = FIRST(Bb) = {d, b}
+FOLLOW(B) = {b}
+
+Parsing Table:
+     |  a  |  b  |  c  |  d  |  $
+-----|-----|-----|-----|-----|-----
+S    |S→aABb|     |     |     |
+A    |     |A→ε  |A→c  |A→ε  |
+B    |     |B→ε  |     |B→d  |
+
+No conflicts → Grammar is LL(1) ✓
+```
+
+**Problem 3 (Left Recursion Elimination - GATE Pattern):**
+```
+Eliminate left recursion:
+E → E + T | E - T | T
+
+Solution:
+E → T E'
+E' → + T E' | - T E' | ε ✓
+
+General form:
+A → Aα₁ | Aα₂ | β₁ | β₂
+becomes:
+A → β₁A' | β₂A'
+A' → α₁A' | α₂A' | ε
+```
+
+**Problem 4 (LR(0) Items - GATE Pattern):**
+```
+Construct LR(0) items for:
+S' → S
+S → CC
+C → cC | d
+
+I0: S' → •S
+    S → •CC
+    C → •cC
+    C → •d
+
+GOTO(I0, S) = I1: S' → S•
+
+GOTO(I0, C) = I2: S → C•C
+                  C → •cC
+                  C → •d
+
+GOTO(I0, c) = I3: C → c•C
+                  C → •cC
+                  C → •d
+
+GOTO(I0, d) = I4: C → d•
+
+GOTO(I2, C) = I5: S → CC•
+GOTO(I2, c) = I3
+GOTO(I2, d) = I4
+
+GOTO(I3, C) = I6: C → cC•
+GOTO(I3, c) = I3
+GOTO(I3, d) = I4
+
+Total LR(0) states = 7 ✓
+```
+
+**Problem 5 (SLR Table Conflict - GATE Pattern):**
+```
+S → L = R | R
+L → *R | id
+R → L
+
+Check for SLR conflicts:
+
+I2 contains: S → L•=R and R → L•
+
+For state I2:
+- Shift on '=' (for S → L•=R)
+- Reduce R → L on FOLLOW(R)
+
+FOLLOW(R) = {=, $}
+
+Conflict! Shift-reduce conflict on '='
+This grammar is NOT SLR(1) ✓
+```
+
+**Problem 6 (Syntax Directed Definition - GATE Pattern):**
+```
+SDT for converting infix to postfix:
+
+E → E₁ + T    { E.code = E₁.code || T.code || "+" }
+E → T         { E.code = T.code }
+T → T₁ * F    { T.code = T₁.code || F.code || "*" }
+T → F         { T.code = F.code }
+F → (E)       { F.code = E.code }
+F → id        { F.code = id.lexval }
+
+Input: a + b * c
+Parse tree evaluation:
+F.code = "a", T.code = "a", E₁.code = "a"
+F.code = "b", T₁.code = "b"
+F.code = "c"
+T.code = "b" || "c" || "*" = "bc*"
+E.code = "a" || "bc*" || "+" = "abc*+"
+
+Output: abc*+ ✓
+```
+
+**Problem 7 (Three Address Code - GATE Pattern):**
+```
+Generate 3AC for: a = b * -c + d / e
+
+TAC:
+t1 = -c           (unary minus)
+t2 = b * t1
+t3 = d / e
+t4 = t2 + t3
+a = t4
+
+Number of temporaries = 4 ✓
+```
+
+**Problem 8 (Basic Blocks - GATE Pattern):**
+```
+Identify basic blocks:
+1. i = 1
+2. j = 1
+3. t1 = 10 * i
+4. t2 = t1 + j
+5. t3 = 8 * t2
+6. t4 = t3 - 88
+7. a[t4] = 0.0
+8. j = j + 1
+9. if j <= 10 goto 3
+10. i = i + 1
+11. if i <= 10 goto 2
+12. i = 1
+...
+
+Leaders: 1, 3, 10, 12
+Block B1: statements 1-2
+Block B2: statements 3-9
+Block B3: statements 10-11
+Block B4: statement 12 onwards ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Parser Hierarchy
+```
+LL(1) ⊂ LR(0) ⊂ SLR(1) ⊂ LALR(1) ⊂ LR(1)
+
+Power comparison:
+LR(1) > LALR(1) > SLR(1) > LR(0) > LL(1)
+
+LL(1) cannot handle:
+- Left recursion
+- Left factoring needed
+- Ambiguity
+
+LALR(1) = LR(1) states merged by core
+Same number of states as SLR(1)
+```
+
+### FIRST Set Rules
+```
+1. FIRST(terminal) = {terminal}
+2. FIRST(ε) = {ε}
+3. FIRST(A → α) = FIRST(α)
+4. If X → Y₁Y₂...Yₖ:
+   - Add FIRST(Y₁) - {ε}
+   - If ε ∈ FIRST(Y₁), add FIRST(Y₂) - {ε}
+   - Continue until non-nullable found
+```
+
+### FOLLOW Set Rules
+```
+1. FOLLOW(Start) includes $
+2. If A → αBβ: Add FIRST(β) - {ε} to FOLLOW(B)
+3. If A → αB or β derives ε: Add FOLLOW(A) to FOLLOW(B)
+
+Note: ε is NEVER in FOLLOW sets
+```
+
+### LR Parsing Actions
+```
+If [A → α•aβ] in I and GOTO(I, a) = J:
+  ACTION[I, a] = shift J
+
+If [A → α•] in I and A ≠ S':
+  SLR: ACTION[I, a] = reduce for all a ∈ FOLLOW(A)
+  CLR: ACTION[I, a] = reduce for lookahead a only
+
+If [S' → S•] in I:
+  ACTION[I, $] = accept
+```
+
+### Attribute Evaluation
+```
+S-attributed (synthesized only):
+- Bottom-up evaluation
+- Works with LR parsing
+
+L-attributed:
+- Left-to-right evaluation
+- Inherited from left siblings or parent only
+- Works with LL parsing
+
+L-attributed ⊃ S-attributed
+```
+
+### Optimization Techniques
+```
+Local (within basic block):
+- Common subexpression elimination
+- Dead code elimination
+- Constant folding/propagation
+- Strength reduction
+
+Global (across blocks):
+- Loop invariant code motion
+- Induction variable elimination
+- Loop unrolling
+```

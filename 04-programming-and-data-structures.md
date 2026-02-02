@@ -10,6 +10,10 @@
 
 ---
 
+> **GATE Weightage**: ~10-12% (10-12 marks) | **Expected Questions**: 5-7
+
+---
+
 # C Programming Fundamentals
 
 ## 1. Data Types & Storage
@@ -870,3 +874,218 @@ DFS (Depth-First Search):
 8. Stack overflow in deep recursion
 9. Forgetting that array passed to function decays to pointer
 10. Structure padding affecting sizeof
+
+---
+
+## 📝 GATE Previous Year Patterns
+
+### Most Frequently Asked Topics
+1. **Pointer Arithmetic & Output Questions** - 2-3 questions/year
+2. **Tree Traversals & BST** - 2 questions/year
+3. **Recursion & Recurrence** - 1-2 questions/year
+4. **Linked Lists** - 1 question/year
+5. **Stack/Queue Applications** - 1 question/year
+6. **Hashing** - 1 question/year
+
+### 💡 GATE-Style Practice Problems
+
+**Problem 1 (Pointer Output - GATE Pattern):**
+```c
+int main() {
+    int arr[] = {10, 20, 30, 40, 50};
+    int *p = arr;
+    printf("%d ", *p++);
+    printf("%d ", *++p);
+    printf("%d ", ++*p);
+    return 0;
+}
+
+Solution:
+*p++ → prints 10 (post-increment, p points to 20 after)
+*++p → p increments first (points to 30), prints 30
+++*p → value at p increments, prints 31
+
+Output: 10 30 31 ✓
+```
+
+**Problem 2 (Recursion - GATE Pattern):**
+```c
+int fun(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return fun(n-1) + fun(n-2);
+}
+
+// Time complexity: T(n) = T(n-1) + T(n-2) + O(1)
+// Solution: O(φⁿ) ≈ O(1.618ⁿ) - Exponential
+// Space complexity: O(n) - recursion depth
+
+// For fun(5):
+// Total function calls = 2*Fib(n+1) - 1 = 2*8 - 1 = 15 calls
+```
+
+**Problem 3 (BST - GATE Pattern):**
+```c
+// Insert sequence: 5, 3, 7, 2, 4, 6, 8
+// What is the post-order traversal?
+
+/*
+Tree structure:
+        5
+       / \
+      3   7
+     / \ / \
+    2  4 6  8
+
+Post-order (LRN): 2, 4, 3, 6, 8, 7, 5 ✓
+In-order (LNR): 2, 3, 4, 5, 6, 7, 8 (sorted)
+Pre-order (NLR): 5, 3, 2, 4, 7, 6, 8
+*/
+```
+
+**Problem 4 (Linked List - GATE Pattern):**
+```c
+// Detect cycle in linked list using Floyd's algorithm
+struct Node* detectCycle(struct Node* head) {
+    struct Node *slow = head, *fast = head;
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return slow;  // Cycle detected
+    }
+    return NULL;  // No cycle
+}
+// Time: O(n), Space: O(1) ✓
+```
+
+**Problem 5 (Stack - GATE Pattern):**
+```
+Convert infix to postfix: A + B * C - D / E
+
+Using operator precedence:
+Step-by-step:
+A → Output: A
++ → Stack: +
+B → Output: AB
+* → Stack: +* (higher precedence)
+C → Output: ABC
+- → Pop until lower precedence: Output: ABC*+, Stack: -
+D → Output: ABC*+D
+/ → Stack: -/ (higher precedence)
+E → Output: ABC*+DE
+End → Pop all: Output: ABC*+DE/-
+
+Postfix: ABC*+DE/- ✓
+```
+
+**Problem 6 (Hashing - GATE Pattern):**
+```
+Insert keys 10, 22, 31, 4, 15, 28, 17, 88, 59 
+into a hash table of size 11 using linear probing.
+h(k) = k mod 11
+
+h(10) = 10 → slot 10
+h(22) = 0 → slot 0
+h(31) = 9 → slot 9
+h(4) = 4 → slot 4
+h(15) = 4 → collision → 5
+h(28) = 6 → slot 6
+h(17) = 6 → collision → 7
+h(88) = 0 → collision → 1
+h(59) = 4 → collision → 8
+
+Table: [22, 88, _, _, 4, 15, 28, 17, 59, 31, 10] ✓
+```
+
+**Problem 7 (Structure Padding - GATE Pattern):**
+```c
+struct test {
+    char a;      // 1 byte + 3 padding
+    int b;       // 4 bytes
+    char c;      // 1 byte
+    double d;    // 8 bytes (needs 8-byte alignment)
+    // 3 padding before double
+};
+// sizeof(struct test) = 4 + 4 + 4 + 8 = 24 bytes
+
+// Optimized ordering:
+struct test_opt {
+    double d;    // 8 bytes
+    int b;       // 4 bytes
+    char a;      // 1 byte
+    char c;      // 1 byte + 2 padding
+};
+// sizeof(struct test_opt) = 8 + 4 + 2 + 2 = 16 bytes ✓
+```
+
+**Problem 8 (Heap - GATE Pattern):**
+```
+Build max-heap from: [4, 10, 3, 5, 1, 8, 7]
+
+Step 1: Start from last non-leaf (index 2)
+Heapify index 2: [4, 10, 8, 5, 1, 3, 7]
+Heapify index 1: [4, 10, 8, 5, 1, 3, 7] (no change)
+Heapify index 0: [10, 5, 8, 4, 1, 3, 7]
+
+Final max-heap: [10, 5, 8, 4, 1, 3, 7] ✓
+```
+
+---
+
+## 📊 Formula Quick Reference Sheet
+
+### Array & Pointer
+```
+Array address: Base + (index × element_size)
+2D array A[m][n]: A[i][j] = Base + (i*n + j) × size
+Pointer arithmetic: p + n = address + n × sizeof(*p)
+```
+
+### Tree Formulas
+```
+Binary tree with n nodes:
+- Minimum height: ⌈log₂(n+1)⌉ - 1
+- Maximum height: n - 1
+- Leaf nodes = Internal nodes with 2 children + 1
+
+Complete binary tree:
+- Internal nodes: ⌊n/2⌋
+- Leaf nodes: ⌈n/2⌉
+- Height: ⌊log₂n⌋
+```
+
+### Heap (0-indexed)
+```
+Parent of i: (i-1)/2
+Left child of i: 2i + 1
+Right child of i: 2i + 2
+Build heap: O(n)
+Insert/Delete: O(log n)
+```
+
+### Hashing
+```
+Load factor α = n/m (n keys, m slots)
+Successful search (chaining): 1 + α/2
+Unsuccessful search (chaining): 1 + α
+Open addressing needs α < 1
+```
+
+### Stack & Queue
+```
+Array implementation:
+- Push: O(1) amortized
+- Pop: O(1)
+- All operations: O(1)
+
+Linked list implementation:
+- All operations: O(1)
+```
+
+### Recursion Complexity
+```
+T(n) = T(n-1) + O(1) → O(n)
+T(n) = T(n-1) + O(n) → O(n²)
+T(n) = 2T(n-1) → O(2ⁿ)
+T(n) = T(n-1) + T(n-2) → O(1.618ⁿ)
+```

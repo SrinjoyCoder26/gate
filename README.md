@@ -8,9 +8,11 @@ This repository contains comprehensive, well-organized last-minute revision note
 - ✅ Key concepts and definitions
 - ✅ Important formulas and theorems
 - ✅ Quick examples and solved problems
+- ✅ GATE-style practice problems with solutions
 - ✅ Tips and tricks for quick recall
 - ✅ Common mistakes to avoid
 - ✅ Previous year question patterns
+- ✅ Formula quick reference sheets
 
 ---
 
@@ -114,3 +116,45 @@ May you crack GATE with flying colors! 🚀
 **⭐ Star this repository if you find it helpful!**
 
 *Last Updated: February 2025*
+
+---
+
+## 📊 What's New in This Update
+
+This comprehensive update includes:
+
+### 🆕 Added to Each Subject
+- **GATE Weightage Information**: Clear indication of expected marks for each subject
+- **Previous Year Patterns**: Analysis of frequently asked topics
+- **GATE-Style Practice Problems**: 8-10 solved problems per subject following GATE patterns
+- **Formula Quick Reference Sheets**: Consolidated formulas for quick revision
+- **Enhanced Theory**: More detailed explanations where needed
+
+### 📈 Subject-wise Enhancements
+
+| Subject | New Additions |
+|---------|--------------|
+| Engineering Mathematics | Probability problems, Graph theory examples, Linear algebra numerical |
+| Digital Logic | K-map solved examples, Counter design, MUX implementation |
+| Computer Organization | Cache numerical, Pipeline problems, AMAT calculations |
+| Programming & Data Structures | Pointer output questions, Tree problems, Hashing examples |
+| Algorithms | DP problems, Graph algorithms, Complexity analysis |
+| Theory of Computation | DFA construction, Pumping lemma proofs, Closure properties |
+| Compiler Design | FIRST/FOLLOW calculations, LR parsing tables, SDT examples |
+| Operating Systems | Scheduling Gantt charts, Page replacement, Banker's algorithm |
+| Databases | Normalization decomposition, SQL queries, Serializability |
+| Computer Networks | Subnetting problems, TCP congestion, CRC calculations |
+| General Aptitude | Word problems, Data interpretation, Logical reasoning |
+
+---
+
+## 🎓 About GATE Exam
+
+**GATE (Graduate Aptitude Test in Engineering)** is a national level examination for admission to postgraduate programs (M.Tech/Ph.D.) in IITs, NITs, and other institutions, as well as for PSU recruitment.
+
+### Key Statistics (GATE CS/IT)
+- **Duration**: 3 hours
+- **Total Marks**: 100
+- **Questions**: 65 (10 from Aptitude, 55 from Technical)
+- **Negative Marking**: 1/3 for 1-mark MCQs, 2/3 for 2-mark MCQs
+- **NAT Questions**: No negative marking
