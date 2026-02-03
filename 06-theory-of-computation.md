@@ -912,3 +912,180 @@ For n-length string w:
 CYK with CNF: O(n³) time
 Number of derivation steps: 2n-1
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Linear Bounded Automata (LBA)
+```
+Turing Machine with tape limited to input length
+- Tape cells: O(n) where n = input length
+- Recognizes Context-Sensitive Languages
+
+LBA ⊂ TM in power
+CSL = L(LBA)
+
+LBA cannot simulate itself (unlike TM)
+```
+
+### Post's Correspondence Problem (PCP)
+```
+Given: List of domino pairs (top, bottom)
+Question: Can we arrange dominoes so top string = bottom string?
+
+Example:
+Domino 1: (a, ab)
+Domino 2: (b, ca)
+Domino 3: (ca, a)
+
+No solution possible - PCP is undecidable!
+
+Used to prove: CFG ambiguity is undecidable
+```
+
+### Kleene's Theorem
+```
+Three equivalent representations of regular languages:
+1. Finite Automata (DFA/NFA)
+2. Regular Expressions
+3. Regular Grammar (Right-linear or Left-linear)
+
+Conversions:
+- RE → NFA: Thompson's construction
+- NFA → DFA: Subset construction
+- DFA → RE: State elimination
+- FA ↔ Regular Grammar: Direct construction
+```
+
+### Arden's Theorem
+```
+For regular expression equation: X = AX + B
+Solution: X = A*B (if ε ∉ A)
+
+Used to convert DFA/NFA to Regular Expression:
+1. Write equations for each state
+2. Solve using Arden's theorem
+3. Get RE for final state
+```
+
+### Properties of Regular Languages
+```
+Solvable decision problems:
+- Membership: Is w ∈ L? - O(n) for DFA
+- Emptiness: Is L = ∅? - Check reachability to final state
+- Finiteness: Is L finite? - Check for cycles to final state
+- Equivalence: Is L₁ = L₂? - Minimize and compare
+
+Counting:
+- Number of strings of length exactly n
+- Uses transfer matrix method or generating functions
+```
+
+### Properties of Context-Free Languages
+```
+Deterministic CFL (DCFL):
+- Recognized by DPDA
+- Closed under complement
+- LR(k) grammars generate DCFLs
+- DCFL ⊂ CFL (proper subset)
+
+Inherently Ambiguous Languages:
+- No unambiguous grammar exists
+- Example: {aⁿbⁿcᵐdᵐ} ∪ {aⁿbᵐcᵐdⁿ}
+```
+
+### Turing Machine Variations
+```
+Multi-tape TM:
+- Multiple read/write heads
+- Same power as single-tape
+- Can be simulated with O(t²) slowdown
+
+Non-deterministic TM:
+- Multiple possible transitions
+- Same power as deterministic TM
+- Can be simulated with exponential slowdown
+
+Two-way Infinite Tape:
+- Tape extends infinitely in both directions
+- Same power as standard TM
+
+Random Access TM:
+- Can jump to any tape position
+- Same power as standard TM
+```
+
+### Computable Functions
+```
+Recursive Functions = Computable Functions:
+- Computed by some Turing Machine
+
+Church-Turing Thesis:
+- Any "effectively computable" function is TM-computable
+
+Busy Beaver Function:
+- Maximum steps before halting for n-state TM
+- Not computable (grows faster than any computable function)
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 9 (LBA - GATE Pattern):**
+```
+Which of the following is recognized by LBA but not by PDA?
+
+a) {aⁿbⁿ | n ≥ 0}
+b) {aⁿbⁿcⁿ | n ≥ 0}
+c) {aⁿ | n is prime}
+d) Both b and c
+
+Solution:
+a) aⁿbⁿ - CFL, can be done by PDA
+b) aⁿbⁿcⁿ - CSL, NOT CFL, needs LBA
+c) Primes - Can be computed in linear space, so CSL
+
+Answer: d) Both b and c ✓
+```
+
+**Problem 10 (Arden's Theorem - GATE Pattern):**
+```
+Find RE for DFA with states {q0, q1, q2}:
+- q0 initial, q2 final
+- δ(q0, a) = q1, δ(q0, b) = q0
+- δ(q1, a) = q2, δ(q1, b) = q0
+- δ(q2, a) = q2, δ(q2, b) = q2
+
+Solution:
+Equations:
+q0 = ε + q0·b + q1·b (start + return paths)
+q1 = q0·a
+q2 = q1·a + q2·a + q2·b = q1·a + q2·(a+b)
+
+From Arden's: q2 = q1·a·(a+b)*
+              q1 = q0·a
+So: q2 = q0·a·a·(a+b)* = q0·aa(a+b)*
+
+From q0 = ε + q0·b = b* (Arden's)
+Final: q2 = b*aa(a+b)* ✓
+```
+
+**Problem 11 (Rice's Theorem Application - GATE Pattern):**
+```
+Which is decidable?
+a) Does TM M halt on empty input?
+b) Does TM M have exactly 100 states?
+c) Is L(M) = {a}?
+d) Is L(M) context-free?
+
+Solution:
+Rice's Theorem: Non-trivial properties of L(TM) are undecidable
+
+a) Halting on empty - About behavior, undecidable
+b) Number of states - About TM structure, not language
+   This is DECIDABLE! Just count states.
+c) L(M) = {a} - Language property, undecidable
+d) L(M) is CFL - Language property, undecidable
+
+Answer: b ✓
+```

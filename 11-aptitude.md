@@ -939,3 +939,235 @@ Total time for aptitude: 15-20 minutes max
 - Average vs Weighted Average
 - Include/Exclude boundary values
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Analytical Reasoning
+```
+Types:
+1. Arrangements (Linear/Circular)
+2. Grouping/Selections
+3. Matching/Mapping
+4. Scheduling
+5. Ordering
+
+Strategy:
+1. Read all conditions carefully
+2. Make a diagram or table
+3. Start with most restrictive condition
+4. Use elimination for MCQs
+```
+
+### Verbal Reasoning
+```
+Sentence Completion:
+- Look for context clues
+- Check for parallel structure
+- Consider tone of passage
+
+Para Jumbles:
+- Find the opening sentence (introduces topic)
+- Look for pronouns and their antecedents
+- Identify connecting words (however, moreover, therefore)
+- Find closing sentence (conclusion/summary)
+```
+
+### Critical Reasoning
+```
+Strengthening Arguments:
+- Find assumption and support it
+- Provide additional evidence
+
+Weakening Arguments:
+- Attack the assumption
+- Provide counter-evidence
+
+Identify the Assumption:
+- Find the gap between premise and conclusion
+- The assumption bridges this gap
+```
+
+### Calendar Problems
+```
+Odd days in a year:
+- Normal year: 365 = 52×7 + 1 → 1 odd day
+- Leap year: 366 = 52×7 + 2 → 2 odd days
+
+Century odd days:
+- 100 years = 76 normal + 24 leap = 76 + 48 = 124 odd days = 5 odd days
+- 400 years = (5×4) + 1 = 21 odd days = 0 odd days
+
+Day codes: Sun=0, Mon=1, Tue=2, ..., Sat=6
+```
+
+### Clock Problems
+```
+Angle between hands:
+θ = |30H - 5.5M| degrees
+(H = hours, M = minutes)
+
+If θ > 180, actual angle = 360 - θ
+
+Hands overlap:
+Every 12/11 hours ≈ 65.45 minutes
+
+Hands at right angle:
+Twice every hour (except 2-4, 8-10 range)
+22 times in 12 hours
+```
+
+### Cubes and Dice
+```
+Painted Cube (n×n×n divided into unit cubes):
+- 3 faces painted: 8 (corners)
+- 2 faces painted: 12(n-2) (edges)
+- 1 face painted: 6(n-2)² (faces)
+- 0 faces painted: (n-2)³ (interior)
+
+Standard Dice:
+- Opposite faces sum to 7
+- 1 opposite to 6
+- 2 opposite to 5
+- 3 opposite to 4
+```
+
+### Venn Diagrams
+```
+For 3 sets:
+n(A∪B∪C) = n(A) + n(B) + n(C) 
+           - n(A∩B) - n(B∩C) - n(A∩C) 
+           + n(A∩B∩C)
+
+Only A = n(A) - n(A∩B) - n(A∩C) + n(A∩B∩C)
+
+Exactly two sets:
+n(A∩B) + n(B∩C) + n(A∩C) - 3×n(A∩B∩C)
+```
+
+### Age Problems
+```
+Key insight: Age difference remains constant
+
+If A is x years older than B:
+- A will always be x years older
+- Ratio changes with time
+
+"n years ago" means subtract n
+"n years hence" means add n
+
+Set up equations using given conditions
+```
+
+### Pipes and Cisterns
+```
+Similar to Work problems:
+- Inlet pipe fills in x hours: Rate = 1/x
+- Outlet pipe empties in y hours: Rate = -1/y (negative)
+
+Combined rate = Sum of individual rates
+
+Filling with both:
+Time = xy/(y-x) hours (if y > x, i.e., filling faster)
+```
+
+### Races and Games
+```
+A beats B by x meters in y meter race:
+- When A covers y meters, B covers (y-x) meters
+- Ratio of speeds = y : (y-x)
+
+A beats B by t seconds:
+- A reaches finish t seconds before B
+- Time A takes = (B's time - t)
+
+Head start of x meters:
+- A starts from x meters behind starting line
+- Effectively races x meters more
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 11 (Clock - GATE Pattern):**
+```
+At what time between 4 and 5 o'clock are the hands 
+of the clock at right angle?
+
+Solution:
+Formula: θ = |30H - 5.5M|
+For H = 4: θ = |120 - 5.5M|
+
+For 90°:
+120 - 5.5M = 90 → M = 30/5.5 ≈ 5.45 minutes
+120 - 5.5M = -90 → M = 210/5.5 ≈ 38.18 minutes
+
+First time: 4:05:27 (approximately)
+Second time: 4:38:11 (approximately) ✓
+```
+
+**Problem 12 (Painted Cube - GATE Pattern):**
+```
+A 4×4×4 cube is painted on all faces and then cut into 
+unit cubes. How many unit cubes have exactly 2 faces painted?
+
+Solution:
+For edge pieces (2 faces painted):
+Each edge has (n-2) such cubes
+A cube has 12 edges
+
+Number = 12 × (4-2) = 12 × 2 = 24 ✓
+```
+
+**Problem 13 (Calendar - GATE Pattern):**
+```
+January 1, 2000 was Saturday. What day is January 1, 2010?
+
+Solution:
+Years 2000-2009 (10 years):
+Leap years: 2000, 2004, 2008 (3 leap years)
+Normal years: 7
+
+Odd days = 7×1 + 3×2 = 7 + 6 = 13 = 6 odd days
+
+Saturday + 6 = Friday
+
+January 1, 2010 is Friday ✓
+```
+
+**Problem 14 (Pipes - GATE Pattern):**
+```
+Pipe A fills a tank in 6 hours, Pipe B in 8 hours.
+Pipe C empties it in 12 hours.
+If all three work together, how long to fill the tank?
+
+Solution:
+A's rate = 1/6 per hour
+B's rate = 1/8 per hour
+C's rate = -1/12 per hour (negative, empties)
+
+Combined = 1/6 + 1/8 - 1/12
+         = 4/24 + 3/24 - 2/24
+         = 5/24 per hour
+
+Time = 24/5 = 4.8 hours = 4 hours 48 minutes ✓
+```
+
+**Problem 15 (Age Problem - GATE Pattern):**
+```
+Father is 4 times as old as son. In 20 years, father will be 
+twice as old as son. Find their present ages.
+
+Solution:
+Let son's age = x, father's age = 4x
+
+In 20 years:
+Son = x + 20, Father = 4x + 20
+
+Given: 4x + 20 = 2(x + 20)
+4x + 20 = 2x + 40
+2x = 20
+x = 10
+
+Son = 10 years, Father = 40 years ✓
+```

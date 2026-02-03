@@ -652,6 +652,153 @@ Stars and bars: C(6 + 4 - 1, 4 - 1) = C(9, 3) = 84 ✓
 
 ---
 
+## 💡 Additional Important Topics
+
+### Generating Functions
+```
+Generating function for sequence {a₀, a₁, a₂, ...}:
+G(x) = a₀ + a₁x + a₂x² + ...
+
+Common generating functions:
+1/(1-x) = 1 + x + x² + ... (for 1, 1, 1, ...)
+1/(1-x)² = 1 + 2x + 3x² + ... (for 1, 2, 3, ...)
+e^x = 1 + x + x²/2! + ... (for 1, 1, 1/2!, ...)
+```
+
+### Predicate Logic
+```
+Universal Quantifier: ∀x P(x) - "For all x, P(x) is true"
+Existential Quantifier: ∃x P(x) - "There exists x such that P(x) is true"
+
+Negation rules:
+¬(∀x P(x)) ≡ ∃x ¬P(x)
+¬(∃x P(x)) ≡ ∀x ¬P(x)
+
+Nested quantifiers:
+∀x∀y = ∀y∀x (can swap)
+∃x∃y = ∃y∃x (can swap)
+∀x∃y ≠ ∃y∀x (cannot swap - order matters!)
+```
+
+### Group Theory (Important for GATE)
+```
+Group (G, *): Set G with binary operation * satisfying:
+1. Closure: a * b ∈ G
+2. Associativity: (a * b) * c = a * (b * c)
+3. Identity: ∃e such that a * e = e * a = a
+4. Inverse: For each a, ∃a⁻¹ such that a * a⁻¹ = e
+
+Abelian Group: Also commutative (a * b = b * a)
+
+Order of element a = smallest n such that aⁿ = e
+Order of group = number of elements
+
+Lagrange's Theorem: Order of subgroup divides order of group
+```
+
+### Lattices and Boolean Algebra
+```
+Lattice: POSET where every two elements have:
+- Least Upper Bound (LUB / Join / ∨)
+- Greatest Lower Bound (GLB / Meet / ∧)
+
+Boolean Algebra: Complemented distributive lattice
+- Complement: For each a, ∃ā such that a ∨ ā = 1, a ∧ ā = 0
+```
+
+### Pigeonhole Principle
+```
+Basic: If n+1 pigeons in n holes, at least one hole has ≥2 pigeons
+
+Generalized: If N objects in k boxes, at least one box has ≥⌈N/k⌉ objects
+
+Applications:
+- In any 13 people, at least 2 have birthday in same month
+- In any 27 word English sentence, at least 2 words start with same letter
+```
+
+### Inclusion-Exclusion Principle
+```
+|A ∪ B| = |A| + |B| - |A ∩ B|
+
+|A ∪ B ∪ C| = |A| + |B| + |C| 
+              - |A ∩ B| - |B ∩ C| - |A ∩ C| 
+              + |A ∩ B ∩ C|
+
+General: |A₁ ∪ A₂ ∪ ... ∪ Aₙ| = Σ|Aᵢ| - Σ|Aᵢ ∩ Aⱼ| + Σ|Aᵢ ∩ Aⱼ ∩ Aₖ| - ...
+```
+
+### Stirling Numbers
+```
+Stirling numbers of second kind S(n,k):
+= Number of ways to partition n elements into k non-empty subsets
+
+S(n,1) = 1 (all in one group)
+S(n,n) = 1 (each in own group)
+S(n,2) = 2^(n-1) - 1
+S(n,k) = k·S(n-1,k) + S(n-1,k-1)
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 5 (Group Theory - GATE Pattern):**
+```
+In the group (Z₁₂, +₁₂), find order of element 8.
+
+Solution:
+We need smallest n such that 8n ≡ 0 (mod 12)
+8×1 = 8, 8×2 = 16 ≡ 4, 8×3 = 24 ≡ 0 (mod 12)
+
+Order of 8 in Z₁₂ = 3 ✓
+
+Alternative: Order = 12/gcd(8,12) = 12/4 = 3
+```
+
+**Problem 6 (Probability - Bayes Theorem - GATE Pattern):**
+```
+A factory has 3 machines. Machine A produces 50% of items, 
+B produces 30%, C produces 20%. Defect rates: A=2%, B=3%, C=5%.
+If a randomly chosen item is defective, what's probability 
+it came from machine C?
+
+Solution:
+P(C|Def) = P(Def|C)×P(C) / P(Def)
+
+P(Def) = P(Def|A)P(A) + P(Def|B)P(B) + P(Def|C)P(C)
+       = 0.02×0.5 + 0.03×0.3 + 0.05×0.2
+       = 0.01 + 0.009 + 0.01 = 0.029
+
+P(C|Def) = (0.05 × 0.2) / 0.029 = 0.01/0.029 ≈ 0.345 ✓
+```
+
+**Problem 7 (Predicate Logic - GATE Pattern):**
+```
+Negate: ∀x∃y (P(x,y) → Q(x))
+
+Solution:
+Step 1: ¬(∀x∃y (P(x,y) → Q(x)))
+Step 2: ∃x ¬(∃y (P(x,y) → Q(x)))
+Step 3: ∃x ∀y ¬(P(x,y) → Q(x))
+Step 4: ∃x ∀y ¬(¬P(x,y) ∨ Q(x))     [p→q ≡ ¬p∨q]
+Step 5: ∃x ∀y (P(x,y) ∧ ¬Q(x))      [De Morgan's]
+
+Answer: ∃x ∀y (P(x,y) ∧ ¬Q(x)) ✓
+```
+
+**Problem 8 (Counting - GATE Pattern):**
+```
+How many 4-digit numbers have at least one repeated digit?
+
+Solution:
+Total 4-digit numbers = 9000 (1000 to 9999)
+4-digit numbers with all distinct = 9 × 9 × 8 × 7 = 4536
+(First digit: 9 choices, second: 9 (including 0), third: 8, fourth: 7)
+
+Numbers with at least one repeat = 9000 - 4536 = 4464 ✓
+```
+
+---
+
 ## 📊 Formula Quick Reference Sheet
 
 ### Logic
@@ -660,6 +807,8 @@ p → q ≡ ¬p ∨ q ≡ ¬q → ¬p
 p ↔ q ≡ (p → q) ∧ (q → p)
 ¬(p ∧ q) ≡ ¬p ∨ ¬q
 ¬(p ∨ q) ≡ ¬p ∧ ¬q
+¬∀x P(x) ≡ ∃x ¬P(x)
+¬∃x P(x) ≡ ∀x ¬P(x)
 ```
 
 ### Counting

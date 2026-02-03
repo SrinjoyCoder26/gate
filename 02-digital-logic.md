@@ -665,3 +665,168 @@ JK: J = Q+, K = Q+'  (most flexible)
 4:1 MUX: Uses 3 × 2:1 MUX
 Full Adder: 2 XOR + 2 AND + 1 OR (for sum and carry)
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Hazards in Combinational Circuits
+```
+Static Hazard:
+- Static-1 hazard: Output should be 1, momentarily goes to 0
+- Static-0 hazard: Output should be 0, momentarily goes to 1
+- Cause: Different path delays for signals
+
+Detection: Check K-map for adjacent 1s not covered by same group
+Solution: Add redundant terms to cover adjacent transitions
+
+Dynamic Hazard:
+- Output changes multiple times before settling
+- Occurs in multi-level circuits
+- Solution: Reduce to two-level implementation
+```
+
+### Carry Lookahead Adder (CLA)
+```
+Generate (G): Gᵢ = Aᵢ · Bᵢ
+Propagate (P): Pᵢ = Aᵢ ⊕ Bᵢ
+
+Carry equations:
+C₁ = G₀ + P₀C₀
+C₂ = G₁ + P₁G₀ + P₁P₀C₀
+C₃ = G₂ + P₂G₁ + P₂P₁G₀ + P₂P₁P₀C₀
+C₄ = G₃ + P₃G₂ + P₃P₂G₁ + P₃P₂P₁G₀ + P₃P₂P₁P₀C₀
+
+Advantages:
+- O(1) delay for carry generation (vs O(n) for ripple)
+- Fast addition at cost of more hardware
+```
+
+### Binary Multiplier
+```
+For n-bit × n-bit multiplication:
+- Produces 2n-bit result
+- Uses array of AND gates and adders
+- Partial products added using adder array
+
+Time: O(n) with array multiplier
+Gate count: n² AND gates + n(n-1) full adders
+```
+
+### BCD (Binary Coded Decimal)
+```
+Each decimal digit represented by 4 bits
+Valid: 0000 (0) to 1001 (9)
+Invalid: 1010 to 1111
+
+BCD Addition:
+1. Add as binary
+2. If sum > 9 or carry out, add 0110 (6)
+
+Example: 7 + 8 = 0111 + 1000 = 1111 (15 in binary)
+15 > 9, so add 6: 1111 + 0110 = 10101 = 15 in BCD (0001 0101)
+```
+
+### Gray Code
+```
+Advantage: Only one bit changes between adjacent codes
+Conversion Binary to Gray:
+G[n] = B[n] (MSB same)
+G[i] = B[i+1] ⊕ B[i]
+
+Conversion Gray to Binary:
+B[n] = G[n]
+B[i] = B[i+1] ⊕ G[i]
+
+Used in: K-maps, shaft encoders, error reduction
+```
+
+### ASM Charts (Algorithmic State Machines)
+```
+Components:
+- State box (rectangle): Contains state name and outputs
+- Decision box (diamond): Binary decision point
+- Conditional output box (oval): Output dependent on input
+
+Equivalent to: State diagram with Moore/Mealy outputs
+Used for: Designing sequential control units
+```
+
+### Programmable Logic Devices
+```
+PLA (Programmable Logic Array):
+- Programmable AND array + Programmable OR array
+- Most flexible, more expensive
+
+PAL (Programmable Array Logic):
+- Programmable AND array + Fixed OR array
+- Less flexible, cheaper
+
+ROM as Logic Device:
+- Fixed AND array (decoder) + Programmable OR array
+- Can implement any function
+
+FPGA (Field Programmable Gate Array):
+- Configurable logic blocks
+- Programmable interconnects
+- Used for complex digital systems
+```
+
+### Timing Diagrams
+```
+Important parameters:
+- Setup time (tₛ): Input must be stable BEFORE clock edge
+- Hold time (tₕ): Input must be stable AFTER clock edge
+- Propagation delay (tₚ): Clock to output change
+
+Maximum clock frequency:
+f_max = 1 / (tₚ + t_combinational + tₛ)
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 6 (CLA - GATE Pattern):**
+```
+For a 4-bit Carry Lookahead Adder, if G₀=0, G₁=1, G₂=0, G₃=1
+and P₀=1, P₁=0, P₂=1, P₃=1, with C₀=1, find C₄.
+
+Solution:
+C₄ = G₃ + P₃G₂ + P₃P₂G₁ + P₃P₂P₁G₀ + P₃P₂P₁P₀C₀
+   = 1 + 1·0 + 1·1·1 + 1·1·0·0 + 1·1·0·1·1
+   = 1 + 0 + 1 + 0 + 0
+   = 1 ✓
+```
+
+**Problem 7 (Hazard Detection - GATE Pattern):**
+```
+Detect static hazards in F = AB + BC
+
+K-map for F:
+      C=0  C=1
+AB=00   0    0
+AB=01   0    1
+AB=11   1    1
+AB=10   1    0
+
+Groups: AB (covers m6, m7) and BC (covers m3, m7)
+m7 is covered by both groups ✓
+
+Static-1 hazard exists when transitioning between AB=11,C=0 
+and AB=01,C=1 (both give F=1 but through different paths)
+
+Fix: Add redundant term AC to cover the hazard
+F = AB + BC + AC ✓
+```
+
+**Problem 8 (BCD Subtraction - GATE Pattern):**
+```
+Subtract 37 from 85 using 10's complement (BCD).
+
+Solution:
+10's complement of 37 = 99 - 37 + 1 = 63
+
+Add: 85 + 63 = 148
+Drop the carry (1): Result = 48 ✓
+
+Verification: 85 - 37 = 48 ✓
+```
