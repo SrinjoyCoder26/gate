@@ -738,3 +738,183 @@ Opcode bits = ⌈log₂(number of operations)⌉
 Register bits = ⌈log₂(number of registers)⌉
 Address bits = ⌈log₂(memory size in words)⌉
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Virtual Memory
+```
+Concepts:
+- Allows programs larger than physical memory
+- Uses disk as extension of RAM
+- Page table maps virtual to physical addresses
+
+Page Table Entry (PTE) contains:
+- Frame number
+- Valid/Invalid bit
+- Protection bits (R/W/X)
+- Modified (Dirty) bit
+- Reference bit
+
+Multi-level Page Tables:
+- Reduce memory for page tables
+- Only active portions in memory
+- Trade-off: More memory accesses
+```
+
+### Memory Interleaving
+```
+Purpose: Increase memory bandwidth
+
+Low-order Interleaving:
+- Consecutive addresses in different banks
+- Good for sequential access
+- Bank = Address mod m (m = number of banks)
+
+High-order Interleaving:
+- Contiguous blocks in same bank
+- Good for localized access
+- Bank = Address div (Size/m)
+
+With m banks: Effective bandwidth ≈ m × single bank bandwidth
+(assuming no conflicts)
+```
+
+### Instruction Pipelining Detailed
+```
+Hazard Resolution Techniques:
+
+1. Data Forwarding (Bypassing):
+   - EX/MEM → EX forwarding
+   - MEM/WB → EX forwarding
+   - Eliminates most RAW hazards
+
+2. Load-Use Stall:
+   - LW R1, 0(R2)
+   - ADD R3, R1, R4  ← Must stall 1 cycle
+   - Data available after MEM stage, needed at EX
+
+3. Branch Prediction:
+   - Static: Always predict taken/not-taken
+   - Dynamic: Branch History Table (BHT)
+   - 1-bit predictor: Last outcome
+   - 2-bit predictor: Saturating counter (better)
+
+4. Delayed Branch:
+   - Execute next instruction regardless
+   - Compiler fills delay slot with useful work
+```
+
+### Performance Metrics
+```
+CPU Time = Instructions × CPI × Cycle Time
+CPU Time = Instructions × CPI / Clock Rate
+
+MIPS = Instruction count / (Execution time × 10⁶)
+     = Clock rate / (CPI × 10⁶)
+
+MFLOPS = FP operations / (Execution time × 10⁶)
+
+Speedup (Amdahl's Law):
+Speedup = 1 / ((1-f) + f/s)
+Where f = fraction enhanced, s = speedup of enhancement
+
+Maximum speedup = 1/(1-f) when s → ∞
+```
+
+### IEEE 754 Floating Point
+```
+Single Precision (32 bits):
+- Sign: 1 bit
+- Exponent: 8 bits (bias = 127)
+- Mantissa: 23 bits
+
+Double Precision (64 bits):
+- Sign: 1 bit  
+- Exponent: 11 bits (bias = 1023)
+- Mantissa: 52 bits
+
+Value = (-1)^S × 1.M × 2^(E-bias)
+
+Special values:
+- 0: E=0, M=0
+- Infinity: E=all 1s, M=0
+- NaN: E=all 1s, M≠0
+- Denormalized: E=0, M≠0 (for numbers near 0)
+```
+
+### Booth's Algorithm (Multiplication)
+```
+For signed binary multiplication:
+- Extends to handle negative numbers
+- Reduces number of additions
+
+Algorithm:
+- Append 0 to right of multiplier
+- Scan bit pairs: current and previous
+- 00, 11: No operation
+- 01: Add multiplicand
+- 10: Subtract multiplicand
+- Shift right after each step
+```
+
+### Microprogrammed Control Unit
+```
+Control Memory: Stores microinstructions
+Microinstruction: Specifies control signals for one cycle
+Microprogram: Sequence of microinstructions for one machine instruction
+
+Formats:
+- Horizontal: Wide, parallel control signals
+- Vertical: Narrow, encoded, needs decoder
+
+Control Address Register (CAR): Points to current microinstruction
+Sequencing: Next address from microinstruction or condition
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 8 (IEEE 754 - GATE Pattern):**
+```
+Convert -12.5 to IEEE 754 single precision.
+
+Solution:
+1. Sign bit: 1 (negative)
+2. Convert 12.5 to binary: 1100.1
+3. Normalize: 1.1001 × 2³
+4. Exponent: 3 + 127 = 130 = 10000010
+5. Mantissa: 10010000000000000000000 (23 bits)
+
+Result: 1 10000010 10010000000000000000000
+Hex: C1480000 ✓
+```
+
+**Problem 9 (Memory Interleaving - GATE Pattern):**
+```
+A 4-way low-order interleaved memory has 256 words.
+Which bank contains word address 75?
+
+Solution:
+Low-order interleaving: Bank = Address mod m
+Bank = 75 mod 4 = 3 ✓
+
+Bank 3 contains addresses: 3, 7, 11, 15, ..., 75, ...
+```
+
+**Problem 10 (Amdahl's Law - GATE Pattern):**
+```
+A program spends 40% time on floating-point operations.
+If FP unit is made 10× faster, what is overall speedup?
+
+Solution:
+f = 0.4 (fraction enhanced)
+s = 10 (speedup of enhancement)
+
+Speedup = 1 / ((1-0.4) + 0.4/10)
+        = 1 / (0.6 + 0.04)
+        = 1 / 0.64
+        = 1.5625 ≈ 1.56× ✓
+
+Maximum possible speedup = 1/(1-0.4) = 1.67×
+```

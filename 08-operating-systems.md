@@ -1025,3 +1025,216 @@ Counting semaphore: S ∈ {0, 1, 2, ...}
 
 Mutex = Binary semaphore for mutual exclusion
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Process Creation (fork())
+```c
+pid_t pid = fork();
+if (pid == 0) {
+    // Child process
+} else if (pid > 0) {
+    // Parent process
+} else {
+    // Error
+}
+
+Properties:
+- Child gets copy of parent's address space
+- fork() returns 0 to child, child's PID to parent
+- After fork(), both processes continue from next instruction
+
+Number of processes after n forks = 2^n
+```
+
+### Inter-Process Communication (IPC)
+```
+Shared Memory:
+- Fastest IPC method
+- Processes share memory region
+- Needs synchronization (semaphores, mutex)
+
+Message Passing:
+- send(message) and receive(message)
+- Can be synchronous or asynchronous
+- Easier to use, slower than shared memory
+
+Pipes:
+- Unidirectional communication
+- Named pipes (FIFO) can be used between unrelated processes
+- Anonymous pipes for parent-child only
+
+Sockets:
+- Network communication
+- Can be used on same or different machines
+```
+
+### Memory Allocation Algorithms
+```
+First Fit:
+- Find first hole big enough
+- Fast, but may create fragments at beginning
+
+Best Fit:
+- Find smallest hole that fits
+- Minimizes waste but leaves many small holes
+
+Worst Fit:
+- Find largest hole
+- Leaves largest leftover, but fragments quickly
+
+Next Fit:
+- Like First Fit but starts from last allocation
+- Distributes fragments throughout memory
+```
+
+### Page Table Structures
+```
+Hierarchical Paging:
+- Multi-level page tables
+- Only active portions in memory
+- 2-level, 3-level, or more
+
+Hashed Page Tables:
+- Hash virtual page number
+- Chain collision resolution
+- Good for sparse address spaces
+
+Inverted Page Tables:
+- One entry per physical frame
+- Entry contains (PID, page number)
+- Used in 64-bit systems (e.g., PowerPC)
+```
+
+### Copy-on-Write (COW)
+```
+Optimization for fork():
+- Parent and child share same pages initially
+- Pages marked read-only
+- On write attempt, create copy for writing process
+- Saves memory for processes that exec() immediately
+```
+
+### Real-Time Scheduling
+```
+Hard Real-Time:
+- Must meet deadline absolutely
+- Failure is catastrophic
+
+Soft Real-Time:
+- Missing deadline degrades quality
+- Not catastrophic
+
+Algorithms:
+- Rate Monotonic (RM): Priority based on period (shorter = higher)
+- Earliest Deadline First (EDF): Dynamic priority based on deadline
+- EDF is optimal for single processor
+```
+
+### Unix/Linux Specific
+```
+Process States in Linux:
+- Running (R): On CPU or ready to run
+- Sleeping (S): Waiting for event
+- Stopped (T): Suspended by signal
+- Zombie (Z): Terminated but not reaped
+
+Signals:
+- SIGKILL (9): Force terminate (cannot be caught)
+- SIGTERM (15): Request termination (can be caught)
+- SIGSTOP: Stop process (cannot be caught)
+- SIGCONT: Continue stopped process
+```
+
+### File System Implementation
+```
+Unix Inode:
+- Contains file metadata (permissions, size, timestamps)
+- Direct pointers: First 12 blocks
+- Single indirect: Pointer to block of pointers
+- Double indirect: Two levels of indirection
+- Triple indirect: Three levels
+
+Maximum file size calculation:
+- With 4KB blocks, 4-byte pointers (1024 pointers per block)
+- Direct: 12 × 4KB = 48KB
+- Single indirect: 1024 × 4KB = 4MB
+- Double indirect: 1024² × 4KB = 4GB
+- Triple indirect: 1024³ × 4KB = 4TB
+```
+
+### Disk Management
+```
+RAID Levels:
+- RAID 0: Striping (no redundancy)
+- RAID 1: Mirroring (100% redundancy)
+- RAID 5: Striping with parity (can survive 1 disk failure)
+- RAID 6: Double parity (can survive 2 disk failures)
+
+Disk Formatting:
+- Low-level: Define tracks and sectors
+- Partitioning: Divide disk into regions
+- High-level: Create file system structures
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 9 (Fork - GATE Pattern):**
+```c
+int main() {
+    fork();
+    fork();
+    fork();
+    printf("hello\n");
+}
+
+How many times is "hello" printed?
+
+Solution:
+After 3 forks: 2³ = 8 processes
+Each process prints "hello" once
+
+Answer: 8 times ✓
+```
+
+**Problem 10 (Inode - GATE Pattern):**
+```
+Block size = 1KB = 1024 bytes, Pointer size = 4 bytes
+12 direct, 1 single indirect, 1 double indirect, 1 triple indirect
+
+Maximum file size?
+
+Solution:
+Pointers per block = 1024/4 = 256
+
+Direct: 12 × 1KB = 12 KB
+Single indirect: 256 × 1KB = 256 KB
+Double indirect: 256² × 1KB = 65,536 KB ≈ 64 MiB
+Triple indirect: 256³ × 1KB = 16,777,216 KB ≈ 16 GiB
+
+Total maximum ≈ 12 KB + 256 KB + 64 MiB + 16 GiB ≈ 16 GiB
+(dominated by triple indirect) ✓
+
+Note: Using binary prefixes (KiB, MiB, GiB) for clarity
+```
+
+**Problem 11 (Real-Time - GATE Pattern):**
+```
+Three periodic tasks:
+T1: Period = 50ms, Execution = 10ms
+T2: Period = 100ms, Execution = 25ms
+T3: Period = 200ms, Execution = 50ms
+
+Is Rate Monotonic schedulable?
+
+Solution:
+CPU utilization = 10/50 + 25/100 + 50/200
+                = 0.2 + 0.25 + 0.25 = 0.7 = 70%
+
+RM schedulability bound for 3 tasks:
+n(2^(1/n) - 1) = 3(2^(1/3) - 1) = 3(0.26) ≈ 0.78 = 78%
+
+Since 70% < 78%, the task set IS schedulable ✓
+```

@@ -1034,3 +1034,204 @@ CSMA/CA (WiFi):
 - ACK after every frame
 - No collision detection (full duplex impractical)
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### ARP (Address Resolution Protocol)
+```
+Maps IP address to MAC address
+- ARP Request: Broadcast asking "Who has IP X?"
+- ARP Reply: Unicast response with MAC address
+- ARP Cache: Stores mappings temporarily
+
+Reverse ARP (RARP): MAC → IP (deprecated)
+Gratuitous ARP: Announce own IP-MAC binding
+```
+
+### ICMP (Internet Control Message Protocol)
+```
+Error reporting and diagnostic messages
+- Echo Request/Reply: Used by ping
+- Destination Unreachable
+- Time Exceeded: TTL = 0 (used by traceroute)
+- Redirect: Better route available
+
+ICMP is encapsulated in IP packets
+```
+
+### IPv6 vs IPv4
+```
+Feature         IPv4            IPv6
+-------         ----            ----
+Address size    32 bits         128 bits
+Header size     20-60 bytes     40 bytes (fixed)
+Checksum        Yes             No (handled by other layers)
+Broadcast       Yes             No (uses multicast)
+IPSec           Optional        Mandatory
+Fragmentation   Routers & hosts End hosts only
+```
+
+### Quality of Service (QoS)
+```
+Integrated Services (IntServ):
+- Per-flow resource reservation
+- RSVP protocol for signaling
+- Scalability issues
+
+Differentiated Services (DiffServ):
+- Class-based, not per-flow
+- DSCP field in IP header
+- More scalable
+
+Traffic Shaping:
+- Leaky Bucket: Smooth output rate
+- Token Bucket: Allow burst with limit
+```
+
+### Wireless Networks
+```
+IEEE 802.11 Standards:
+- 802.11b: 11 Mbps, 2.4 GHz
+- 802.11a: 54 Mbps, 5 GHz
+- 802.11g: 54 Mbps, 2.4 GHz
+- 802.11n: Up to 600 Mbps, both bands
+- 802.11ac: Up to 6.9 Gbps, 5 GHz
+- 802.11ax (WiFi 6): Up to 9.6 Gbps
+
+Hidden Terminal Problem:
+- A and C can't hear each other
+- Both try to send to B → Collision at B
+- Solution: RTS/CTS handshake
+
+Exposed Terminal Problem:
+- B sending to A prevents C from sending to D
+- Even though D wouldn't interfere
+```
+
+### VPN and Tunneling
+```
+Tunneling Protocols:
+- PPTP: Point-to-Point Tunneling Protocol
+- L2TP: Layer 2 Tunneling Protocol
+- IPSec Tunnel Mode: Entire IP packet encrypted
+- GRE: Generic Routing Encapsulation
+
+VPN provides:
+- Confidentiality (encryption)
+- Authentication
+- Integrity
+```
+
+### Network Address Translation Details
+```
+Types:
+- Static NAT: 1:1 mapping
+- Dynamic NAT: Pool of public IPs
+- PAT/NAT Overload: Many private → one public (using ports)
+
+NAT Table Entry:
+(Private IP, Private Port) ↔ (Public IP, Public Port)
+
+Issues:
+- Breaks end-to-end connectivity
+- Problems with P2P, VoIP
+- Solutions: STUN, TURN, UPnP
+```
+
+### Error Correction Codes
+```
+Hamming Code:
+- Can correct single-bit errors
+- Parity bits at positions 2^i
+- r parity bits for m data bits: 2^r ≥ m + r + 1
+
+Hamming(7,4):
+- 4 data bits, 3 parity bits
+- Detects 2-bit errors, corrects 1-bit
+
+SECDED (Single Error Correction, Double Error Detection):
+- Add overall parity bit to Hamming code
+```
+
+### Socket Programming Basics
+```
+Server:
+1. socket() - Create socket
+2. bind() - Associate with address/port
+3. listen() - Mark as passive socket
+4. accept() - Accept incoming connection
+5. read()/write() - Communicate
+6. close() - Terminate
+
+Client:
+1. socket() - Create socket
+2. connect() - Connect to server
+3. read()/write() - Communicate
+4. close() - Terminate
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 10 (ARP - GATE Pattern):**
+```
+Host A (IP: 192.168.1.10) wants to send to Host B (IP: 192.168.1.20)
+on the same subnet. Host A's ARP cache is empty.
+
+Describe the packet flow.
+
+Solution:
+1. A broadcasts ARP Request: "Who has 192.168.1.20?"
+2. B responds with ARP Reply: "I have it, MAC is XX:XX:XX:XX:XX:XX"
+3. A caches B's MAC address
+4. A sends IP packet to B using B's MAC address
+
+If B were on different subnet:
+A would ARP for default gateway instead ✓
+```
+
+**Problem 11 (Hamming Code - GATE Pattern):**
+```
+Received Hamming(7,4) code word: 1011011
+Check for errors.
+
+Solution:
+Position layout in Hamming(7,4):
+Position:     1   2   3   4   5   6   7
+Type:        p1  p2  d1  p4  d2  d3  d4
+Received:     1   0   1   1   0   1   1
+
+Parity check positions (each parity bit checks positions with that bit set):
+- p1 (bit 1) checks positions 1,3,5,7 (binary: xxx1)
+- p2 (bit 2) checks positions 2,3,6,7 (binary: xx1x)
+- p4 (bit 4) checks positions 4,5,6,7 (binary: x1xx)
+
+Syndrome calculation (XOR of checked bits):
+Check p1 (pos 1,3,5,7): 1⊕1⊕0⊕1 = 1 (syndrome bit s1 = 1)
+Check p2 (pos 2,3,6,7): 0⊕1⊕1⊕1 = 1 (syndrome bit s2 = 1)
+Check p4 (pos 4,5,6,7): 1⊕0⊕1⊕1 = 1 (syndrome bit s4 = 1)
+
+Syndrome = s4 s2 s1 = 111 (binary) = 7 (decimal)
+Error at position 7!
+
+Correct bit 7: 1011011 → 1011010
+Data bits (positions 3,5,6,7): d1=1, d2=0, d3=1, d4=0 → 1010 ✓
+```
+
+**Problem 12 (Token Bucket - GATE Pattern):**
+```
+Token bucket: Rate = 10 Mbps, Bucket size = 1 MB
+Maximum burst size if bucket is full?
+
+Solution:
+With full bucket (1 MB = 8 Mb):
+- Can send at line rate until bucket empties
+- Bucket depletes while sending
+
+If line rate = R and token rate = r:
+Burst duration = Bucket / (R - r)
+
+For R >> r (burst mode):
+Maximum burst ≈ Bucket size = 1 MB = 8 Mb ✓
+```

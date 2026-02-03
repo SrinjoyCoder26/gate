@@ -969,3 +969,195 @@ Famous NP-Complete:
 SAT, 3-SAT, Vertex Cover, Clique, Independent Set,
 Hamiltonian Cycle, TSP (decision), Subset Sum, Graph Coloring
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Amortized Analysis
+```
+Three methods:
+1. Aggregate Method: Total cost / number of operations
+2. Accounting Method: Assign costs, store credit for expensive ops
+3. Potential Method: Define potential function, analyze changes
+
+Example - Dynamic Array:
+- Most insertions: O(1)
+- Occasional resizing: O(n)
+- Amortized per insertion: O(1)
+```
+
+### Randomized Algorithms
+```
+Las Vegas: Always correct, random running time
+  Example: Randomized QuickSort
+
+Monte Carlo: May be incorrect, bounded running time
+  Example: Miller-Rabin primality test
+
+Expected time vs Worst-case time:
+- Randomized QuickSort: E[T] = O(n log n), worst O(n²)
+- Expected case often more realistic than worst case
+```
+
+### Network Flow Algorithms
+```
+Ford-Fulkerson Method:
+- Find augmenting path, increase flow
+- Repeat until no augmenting path
+- Time: O(E × max_flow) with DFS
+
+Edmonds-Karp (BFS version):
+- Use BFS to find shortest augmenting path
+- Time: O(VE²)
+
+Max-Flow Min-Cut Theorem:
+Maximum flow = Minimum cut capacity
+```
+
+### String Algorithms (Detailed)
+```
+Suffix Array:
+- Array of all suffix positions, sorted lexicographically
+- Build: O(n log n)
+- LCP array in O(n)
+
+Suffix Tree:
+- Compressed trie of all suffixes
+- Build: O(n) with Ukkonen's algorithm
+- Applications: Pattern matching, LCS, repeated substrings
+
+Z-Algorithm:
+- Z[i] = length of longest substring starting at i that matches prefix
+- Linear time O(n)
+```
+
+### Approximation Algorithms
+```
+For NP-Hard optimization problems:
+- Find solution within factor of optimal
+
+ρ-approximation: ALG ≤ ρ × OPT (for minimization)
+                 ALG ≥ OPT / ρ (for maximization)
+
+Examples:
+- Vertex Cover: 2-approximation (greedy)
+- TSP with triangle inequality: 1.5-approximation (Christofides)
+- Set Cover: O(log n)-approximation (greedy)
+- Knapsack: FPTAS exists (fully polynomial time approximation scheme)
+```
+
+### Parallel Algorithms
+```
+Work (W): Total operations
+Span (D): Longest dependency chain (depth)
+Parallelism: W/D = max speedup possible
+
+Brent's Theorem:
+T_p ≤ W/p + D (time on p processors)
+
+Examples:
+- Parallel merge sort: W = O(n log n), D = O(log² n)
+- Parallel prefix sum: W = O(n), D = O(log n)
+```
+
+### Lower Bounds
+```
+Comparison-based sorting lower bound: Ω(n log n)
+Proof: Decision tree with n! leaves, height ≥ log(n!)
+
+Searching in sorted array: Ω(log n)
+Proof: Adversary argument or information theory
+
+Convex Hull: Ω(n log n)
+Element Distinctness: Ω(n log n)
+```
+
+### Advanced Graph Algorithms
+```
+All-Pairs Shortest Path:
+- Floyd-Warshall: O(V³), works with negative edges
+- Johnson's: O(V² log V + VE), uses reweighting
+
+Maximum Bipartite Matching:
+- Hungarian algorithm: O(V³)
+- Hopcroft-Karp: O(E√V)
+
+Strongly Connected Components:
+- Kosaraju's: O(V+E), two DFS passes
+- Tarjan's: O(V+E), single DFS
+
+Minimum Cut:
+- Stoer-Wagner: O(VE + V² log V)
+- Ford-Fulkerson: O(VE²)
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 11 (Amortized Analysis - GATE Pattern):**
+```
+A dynamic array doubles its size when full.
+What is the amortized cost of n insertions?
+
+Solution:
+Costs: 1+1+1+2+1+1+1+1+4+1+1+1+1+1+1+1+8+...
+       (resize at powers of 2)
+
+Total cost for n insertions:
+= n + (1 + 2 + 4 + 8 + ... + 2^⌊log n⌋)
+= n + (2^(⌊log n⌋+1) - 1)
+≤ n + 2n = 3n
+
+Amortized cost = 3n/n = O(1) per insertion ✓
+```
+
+**Problem 12 (Network Flow - GATE Pattern):**
+```
+Find maximum flow from S to T:
+    S --10--> A --5--> T
+    S --8--> B --7--> T
+    A --3--> B
+
+Solution:
+Path 1: S→A→T: Flow = min(10,5) = 5
+        After: S→A=5, A→T=0 (saturated)
+        
+Path 2: S→B→T: Flow = min(8,7) = 7
+        After: S→B=1, B→T=0 (saturated)
+
+Path 3: S→A→B→T: Cannot use - both A→T and B→T are saturated
+        Remaining capacity: A→B=3, but B→T=0
+        No additional flow possible
+
+Maximum flow = 5 + 7 = 12 ✓
+```
+
+**Problem 13 (Approximation - GATE Pattern):**
+```
+Greedy vertex cover on a graph gives 8 vertices.
+What can we say about the optimal vertex cover size?
+
+Solution:
+Greedy gives 2-approximation
+So: Greedy ≤ 2 × Optimal
+    8 ≤ 2 × Optimal
+    Optimal ≥ 4
+
+The optimal vertex cover has at least 4 vertices ✓
+```
+
+**Problem 14 (Lower Bound - GATE Pattern):**
+```
+Why can't we sort n elements faster than O(n log n) 
+using only comparisons?
+
+Solution:
+Decision tree argument:
+- Each comparison gives 2 outcomes
+- n! possible orderings of input
+- Decision tree must have ≥ n! leaves
+- Tree height h must satisfy 2^h ≥ n!
+- h ≥ log₂(n!) = Ω(n log n)
+
+Therefore Ω(n log n) comparisons are necessary ✓
+```

@@ -1089,3 +1089,204 @@ T(n) = T(n-1) + O(n) → O(n²)
 T(n) = 2T(n-1) → O(2ⁿ)
 T(n) = T(n-1) + T(n-2) → O(1.618ⁿ)
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### AVL Trees
+```
+Balanced BST where height difference ≤ 1 for all nodes
+Balance Factor (BF) = Height(Left) - Height(Right)
+Valid BF: -1, 0, +1
+
+Rotations:
+- LL (Left-Left): Right rotation
+- RR (Right-Right): Left rotation
+- LR (Left-Right): Left then Right rotation
+- RL (Right-Left): Right then Left rotation
+
+Operations: Search, Insert, Delete - O(log n)
+Height of AVL tree with n nodes: ~1.44 log₂(n)
+```
+
+### Red-Black Trees
+```
+BST with color property:
+1. Every node is red or black
+2. Root is black
+3. All leaves (NIL) are black
+4. Red node's children are black (no two consecutive reds)
+5. Equal black nodes on all paths from root to leaves
+
+Height ≤ 2 log₂(n+1)
+Operations: O(log n)
+Used in: Linux kernel, Java TreeMap
+```
+
+### Tries (Prefix Trees)
+```
+Each node represents a character
+Path from root = prefix of words
+Leaf or marked node = complete word
+
+Operations: O(m) where m = length of key
+Space: O(ALPHABET_SIZE × m × n) worst case
+
+Applications:
+- Autocomplete
+- Spell checker
+- IP routing tables
+```
+
+### Segment Trees
+```
+Used for range queries and updates
+- Build: O(n)
+- Query: O(log n)
+- Update: O(log n)
+
+Applications:
+- Range sum queries
+- Range min/max queries
+- Range updates with lazy propagation
+```
+
+### Disjoint Set Union (Union-Find)
+```
+Operations:
+- Find: Which set does element belong to?
+- Union: Merge two sets
+
+Optimizations:
+- Path compression: Flatten tree during find
+- Union by rank: Attach smaller tree under larger
+
+Time complexity (with both optimizations):
+- Nearly O(1) per operation
+- O(α(n)) where α = inverse Ackermann function
+```
+
+### Counting Sort Details
+```
+Stable sort, O(n+k) time and space
+k = range of input values
+
+Algorithm:
+1. Count frequency of each value
+2. Calculate cumulative count
+3. Place elements at correct position (from right for stability)
+
+Limitations:
+- Only for integers (or items that can be indexed)
+- Inefficient if range k >> n
+```
+
+### String Matching Algorithms
+```
+Naive: O((n-m+1) × m) where n=text, m=pattern
+
+KMP (Knuth-Morris-Pratt):
+- Preprocess pattern: O(m)
+- Search: O(n)
+- Uses failure function (prefix table)
+
+Rabin-Karp:
+- Rolling hash for pattern matching
+- Average O(n+m), worst O(nm)
+- Good for multiple pattern search
+
+Z-Algorithm: O(n+m)
+Suffix Array + LCP: O(n log n) preprocessing, O(m log n) search
+```
+
+### Minimum Spanning Tree Properties
+```
+Cut Property: Minimum edge crossing any cut is in MST
+Cycle Property: Maximum edge in any cycle is NOT in MST
+
+Uniqueness: MST is unique if all edge weights are distinct
+
+For graph with V vertices and E edges:
+- MST has exactly V-1 edges
+- Adding any edge creates exactly one cycle
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 9 (AVL Tree - GATE Pattern):**
+```
+Insert 10, 20, 15 into an empty AVL tree. Show rotations.
+
+Solution:
+Insert 10: Tree is just [10]
+Insert 20: Tree becomes 10→20 (right child)
+           BF(10) = -1, balanced
+
+Insert 15: Tree becomes:
+              10
+                \
+                 20
+                /
+               15
+           BF(10) = -2 (unbalanced, RL case!)
+           
+RL Rotation needed (Right-Left imbalance):
+Step 1: Right rotate at 20 (right child of unbalanced node)
+        - 15 becomes right child of 10
+        - 20 becomes right child of 15
+              10
+                \
+                 15
+                   \
+                    20
+
+Step 2: Left rotate at 10 (unbalanced node)
+        - 15 becomes root
+        - 10 becomes left child of 15
+        - 20 stays right child of 15
+        
+        Final:  15
+               /  \
+              10   20 ✓
+```
+
+**Problem 10 (Union-Find - GATE Pattern):**
+```
+Perform these operations with union by rank and path compression:
+MakeSet(1), MakeSet(2), MakeSet(3), MakeSet(4), MakeSet(5)
+Union(1,2), Union(3,4), Union(1,3), Union(5,3)
+Find(2)
+
+Solution:
+After MakeSet: Each element is its own parent
+After Union(1,2): 1 is parent of 2 (or vice versa)
+After Union(3,4): 3 is parent of 4
+After Union(1,3): Trees merged, say 1 is root of 3
+After Union(5,3): 5 joins the tree with root 1
+
+Find(2) with path compression:
+- Follow: 2→1
+- 1 is root
+- Path compression makes 2 point directly to 1
+
+Result: Root is 1 ✓
+```
+
+**Problem 11 (KMP - GATE Pattern):**
+```
+Compute failure function (prefix table) for pattern "ABABAC"
+
+Solution:
+Pattern: A B A B A C
+Index:   0 1 2 3 4 5
+
+π[0] = 0 (by definition)
+π[1] = 0 (A vs B, no match)
+π[2] = 1 (AB vs BA, "A" matches at start)
+π[3] = 2 (ABA vs BAB, "AB" matches at start)
+π[4] = 3 (ABAB vs BABA, "ABA" matches at start)
+π[5] = 0 (ABABA vs BABAC, no match)
+
+Failure function: [0, 0, 1, 2, 3, 0] ✓
+```

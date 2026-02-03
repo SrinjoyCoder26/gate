@@ -957,3 +957,222 @@ Hash index:
 - O(1) average for equality
 - Not good for range queries
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### SQL Advanced Queries
+```sql
+-- Window Functions
+SELECT name, salary,
+       RANK() OVER (ORDER BY salary DESC) as rank,
+       ROW_NUMBER() OVER (ORDER BY salary DESC) as row_num,
+       SUM(salary) OVER (PARTITION BY dept) as dept_total
+FROM Employee;
+
+-- Common Table Expression (CTE)
+WITH DeptAvg AS (
+    SELECT dept, AVG(salary) as avg_sal
+    FROM Employee GROUP BY dept
+)
+SELECT e.name, d.avg_sal
+FROM Employee e JOIN DeptAvg d ON e.dept = d.dept;
+
+-- CASE expression
+SELECT name,
+       CASE WHEN salary > 100000 THEN 'High'
+            WHEN salary > 50000 THEN 'Medium'
+            ELSE 'Low' END as salary_level
+FROM Employee;
+```
+
+### Canonical Cover
+```
+Purpose: Minimize set of FDs while preserving closure
+
+Properties of canonical cover:
+1. No redundant FDs
+2. No extraneous attributes on LHS
+3. Each RHS has single attribute
+
+Algorithm:
+1. Make RHS single attribute (decomposition)
+2. Remove extraneous LHS attributes
+3. Remove redundant FDs
+```
+
+### Lossless Decomposition Test
+```
+Binary decomposition R into R1 and R2:
+Lossless if: (R1 ∩ R2) → R1 OR (R1 ∩ R2) → R2
+
+i.e., common attributes must be key of at least one relation
+
+General decomposition:
+Use chase algorithm (tableau method)
+```
+
+### Dependency Preservation
+```
+Decomposition preserves dependencies if:
+All original FDs can be checked within single decomposed relations
+
+(F1 ∪ F2 ∪ ... ∪ Fn)⁺ = F⁺
+
+Note: BCNF decomposition may NOT be dependency preserving
+3NF decomposition is always dependency preserving
+```
+
+### Query Processing
+```
+Steps:
+1. Parsing and translation (SQL → RA)
+2. Optimization (find efficient plan)
+3. Evaluation (execute plan)
+
+Cost factors:
+- Disk I/O (dominant)
+- CPU time
+- Memory usage
+- Network (for distributed)
+
+Join algorithms:
+- Nested Loop: O(b_r × b_s) I/Os
+- Block Nested Loop: O(b_r × b_s / M)
+- Indexed Nested Loop: O(b_r × h_s)
+- Sort-Merge: O(b_r log b_r + b_s log b_s)
+- Hash Join: O(3(b_r + b_s))
+```
+
+### Query Optimization
+```
+Equivalence Rules:
+1. σ_θ1∧θ2(R) = σ_θ1(σ_θ2(R))
+2. σ_θ1(σ_θ2(R)) = σ_θ2(σ_θ1(R))
+3. π_L1(π_L2(...)) = π_L1(...)
+4. σ_θ(R ⋈ S) = σ_θ(R) ⋈ S (if θ involves only R)
+5. R ⋈ S = S ⋈ R
+
+Heuristics:
+- Push selections down (early filtering)
+- Push projections down (reduce tuple size)
+- Combine sequences of selections/projections
+```
+
+### Database Recovery
+```
+Log-based Recovery:
+- Write-Ahead Logging (WAL): Log before data
+- Undo logging: Old value, commit at end
+- Redo logging: New value, force before commit
+- Undo-redo: Both values, most flexible
+
+Checkpointing:
+- Periodic save of database state
+- Reduces recovery time
+- Types: Consistent, Fuzzy
+
+ARIES Algorithm:
+- Analysis: Determine dirty pages and active transactions
+- Redo: Replay logged operations
+- Undo: Rollback incomplete transactions
+```
+
+### Distributed Databases
+```
+Fragmentation:
+- Horizontal: Partition rows
+- Vertical: Partition columns (must include key)
+
+Replication:
+- Data copied to multiple sites
+- Increases availability, read performance
+- Complicates updates (consistency)
+
+Two-Phase Commit (2PC):
+Phase 1: Coordinator asks all to prepare
+Phase 2: If all prepared, commit; else abort
+
+CAP Theorem:
+Cannot have all three simultaneously:
+- Consistency
+- Availability
+- Partition tolerance
+```
+
+### NoSQL Concepts
+```
+Types:
+- Key-Value: Redis, DynamoDB
+- Document: MongoDB, CouchDB
+- Column-family: Cassandra, HBase
+- Graph: Neo4j, Amazon Neptune
+
+BASE vs ACID:
+- Basically Available
+- Soft state
+- Eventually consistent
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 9 (Canonical Cover - GATE Pattern):**
+```
+Find canonical cover for: A→BC, B→C, AB→C
+
+Solution:
+1. Decompose RHS: A→B, A→C, B→C, AB→C
+
+2. Check extraneous attributes:
+   - In AB→C: Is A extraneous?
+     Compute B⁺ using {A→B, A→C, B→C} (excluding AB→C): B⁺={B,C}
+     Since C ∈ B⁺, A is extraneous in AB→C
+     So AB→C is redundant (covered by B→C)
+   
+   - Is A→C redundant?
+     Compute A⁺ under {A→B, B→C} (excluding A→C): A⁺={A,B,C}
+     Since C ∈ A⁺, A→C is redundant (derivable through A→B→C)
+
+3. Remove redundant FDs:
+   Canonical cover: {A→B, B→C} ✓
+```
+
+**Problem 10 (Join Cost - GATE Pattern):**
+```
+Nested loop join of R (1000 blocks) and S (500 blocks)
+with 52 memory blocks available.
+
+Calculate I/O cost for block nested loop join.
+
+Solution:
+Using R as outer relation:
+Cost = b_r + ⌈b_r/(M-2)⌉ × b_s
+     = 1000 + ⌈1000/50⌉ × 500
+     = 1000 + 20 × 500
+     = 1000 + 10000 = 11000 I/Os
+
+Using S as outer (better):
+Cost = 500 + ⌈500/50⌉ × 1000
+     = 500 + 10 × 1000
+     = 500 + 10000 = 10500 I/Os ✓
+```
+
+**Problem 11 (Recovery - GATE Pattern):**
+```
+Log entries: 
+<T1, start>, <T1, A, 10, 20>, <T2, start>, 
+<T2, B, 30, 40>, <T1, commit>, <checkpoint>,
+<T3, start>, <T3, C, 50, 60>, <T2, abort>
+---crash---
+
+What values are in database after recovery?
+
+Solution:
+After crash, from checkpoint:
+- T1: Committed before checkpoint → Changes permanent (A=20)
+- T2: Aborted → Undo changes (B=30)
+- T3: Neither committed nor aborted → Undo (C=50)
+
+Final values: A=20, B=30, C=50 ✓
+```

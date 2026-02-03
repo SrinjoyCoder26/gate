@@ -915,3 +915,218 @@ Global (across blocks):
 - Induction variable elimination
 - Loop unrolling
 ```
+
+---
+
+## 💡 Additional Important Topics
+
+### Runtime Environments
+```
+Stack Allocation:
+- Activation records on call stack
+- Local variables, parameters, return address
+- LIFO allocation/deallocation
+
+Heap Allocation:
+- Dynamic allocation (malloc/new)
+- Garbage collection or manual free
+- Fragmentation issues
+
+Static Allocation:
+- Global variables
+- Static local variables
+- Known at compile time
+```
+
+### Activation Records
+```
+Stack Frame Contents (bottom to top):
+1. Arguments (passed by caller)
+2. Return address
+3. Saved frame pointer (old BP)
+4. Local variables
+5. Temporary values
+
+Frame Pointer (FP/BP): Base of current frame
+Stack Pointer (SP): Top of stack
+```
+
+### Parameter Passing Mechanisms
+```
+Call by Value:
+- Copy of actual parameter
+- Changes don't affect original
+
+Call by Reference:
+- Address of actual parameter
+- Changes affect original
+
+Call by Value-Result (Copy-in, Copy-out):
+- Copy in on call, copy out on return
+- Changes copied back at end
+
+Call by Name (Lazy evaluation):
+- Expression substituted textually
+- Re-evaluated each use
+```
+
+### Symbol Table Organization
+```
+Structures:
+- Linear list: O(n) lookup, simple
+- Hash table: O(1) average lookup
+- Tree: O(log n) lookup, ordered
+
+Scope handling:
+- Nested symbol tables
+- Stack of tables for block scoping
+- Each scope has pointer to enclosing scope
+```
+
+### Type Checking
+```
+Static Type Checking:
+- At compile time
+- Type errors caught early
+- Languages: C, Java, C++
+
+Dynamic Type Checking:
+- At runtime
+- More flexible but slower
+- Languages: Python, JavaScript
+
+Type Synthesis:
+- Determine type from subexpressions
+- E.g., int + float → float
+
+Type Inference:
+- Deduce types without declarations
+- E.g., Haskell, ML
+```
+
+### Intermediate Representations
+```
+High-level IR:
+- AST (Abstract Syntax Tree)
+- Close to source language
+
+Medium-level IR:
+- Three-address code
+- Control flow graph
+
+Low-level IR:
+- Close to machine code
+- Register transfer language
+
+SSA (Static Single Assignment):
+- Each variable assigned exactly once
+- Φ (phi) functions at join points
+- Enables many optimizations
+```
+
+### Peephole Optimization
+```
+Small window (peephole) of instructions
+Local transformations:
+
+1. Redundant load/store elimination:
+   MOV R0, a
+   MOV a, R0  ← Remove
+
+2. Algebraic simplification:
+   ADD R0, 0  → (nothing)
+   MUL R0, 1  → (nothing)
+   MUL R0, 2  → SHL R0, 1
+
+3. Jump optimization:
+   JUMP L1
+   L1: JUMP L2  → JUMP L2
+
+4. Dead code elimination:
+   Remove unreachable code
+```
+
+### Garbage Collection
+```
+Reference Counting:
+- Count references to each object
+- Free when count = 0
+- Problem: Cyclic references
+
+Mark and Sweep:
+- Mark all reachable objects
+- Sweep (free) unmarked objects
+- Pauses program execution
+
+Copying Collection:
+- Divide heap into two halves
+- Copy live objects to other half
+- No fragmentation
+
+Generational GC:
+- Young objects die quickly
+- Collect young generation more often
+- Used in Java, .NET
+```
+
+### 💡 More GATE-Style Practice Problems
+
+**Problem 9 (Activation Record - GATE Pattern):**
+```c
+int f(int n) {
+    if (n <= 1) return 1;
+    return n * f(n-1);
+}
+// Call f(4)
+
+How many activation records are on the stack at maximum?
+
+Solution:
+f(4) calls f(3) calls f(2) calls f(1)
+At f(1), stack has: f(4), f(3), f(2), f(1)
+
+Maximum = 4 activation records ✓
+```
+
+**Problem 10 (Type Checking - GATE Pattern):**
+```
+For expression: (a + b) * c[i]
+where a: int, b: float, c: array of int, i: int
+
+Find type of expression.
+
+Solution:
+1. a + b: int + float = float (coercion)
+2. c[i]: int (array indexing)
+3. float * int = float (coercion)
+
+Type of expression = float ✓
+```
+
+**Problem 11 (Optimization - GATE Pattern):**
+```c
+Original code:
+for (i = 0; i < n; i++) {
+    x = y + z;
+    a[i] = 6 * i + x;
+}
+
+Apply loop optimizations.
+
+Solution:
+1. Code motion (y + z is loop invariant):
+   x = y + z;
+   for (i = 0; i < n; i++) {
+       a[i] = 6 * i + x;
+   }
+
+2. Strength reduction (replace 6*i with addition):
+   x = y + z;
+   t = 0;
+   for (i = 0; i < n; i++) {
+       a[i] = t + x;
+       t = t + 6;
+   }
+
+Optimizations applied: Loop invariant code motion, Strength reduction ✓
+```
