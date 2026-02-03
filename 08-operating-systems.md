@@ -1201,7 +1201,7 @@ Answer: 8 times ✓
 
 **Problem 10 (Inode - GATE Pattern):**
 ```
-Block size = 1KB, Pointer size = 4 bytes
+Block size = 1KB = 1024 bytes, Pointer size = 4 bytes
 12 direct, 1 single indirect, 1 double indirect, 1 triple indirect
 
 Maximum file size?
@@ -1211,10 +1211,13 @@ Pointers per block = 1024/4 = 256
 
 Direct: 12 × 1KB = 12 KB
 Single indirect: 256 × 1KB = 256 KB
-Double indirect: 256² × 1KB = 64 MB
-Triple indirect: 256³ × 1KB = 16 GB
+Double indirect: 256² × 1KB = 65,536 KB ≈ 64 MiB
+Triple indirect: 256³ × 1KB = 16,777,216 KB ≈ 16 GiB
 
-Maximum ≈ 16 GB (dominated by triple indirect) ✓
+Total maximum ≈ 12 KB + 256 KB + 64 MiB + 16 GiB ≈ 16 GiB
+(dominated by triple indirect) ✓
+
+Note: Using binary prefixes (KiB, MiB, GiB) for clarity
 ```
 
 **Problem 11 (Real-Time - GATE Pattern):**

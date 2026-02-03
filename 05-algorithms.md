@@ -1120,9 +1120,14 @@ Find maximum flow from S to T:
 
 Solution:
 Path 1: S→A→T: Flow = min(10,5) = 5
+        After: S→A=5, A→T=0 (saturated)
+        
 Path 2: S→B→T: Flow = min(8,7) = 7
-Path 3: S→A→B→T: Remaining capacity A→B = 3, B→T = 0
-         No additional flow possible
+        After: S→B=1, B→T=0 (saturated)
+
+Path 3: S→A→B→T: Cannot use - both A→T and B→T are saturated
+        Remaining capacity: A→B=3, but B→T=0
+        No additional flow possible
 
 Maximum flow = 5 + 7 = 12 ✓
 ```

@@ -826,7 +826,11 @@ Solution:
 10's complement of 37 = 99 - 37 + 1 = 63
 
 Add: 85 + 63 = 148
+Since there is a carry (1), result is positive.
 Drop the carry (1): Result = 48 ✓
+
+Note: If there is no carry, result is negative.
+Take 10's complement of result and add negative sign.
 
 Verification: 85 - 37 = 48 ✓
 ```

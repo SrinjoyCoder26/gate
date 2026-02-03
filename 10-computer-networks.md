@@ -1197,17 +1197,26 @@ Received Hamming(7,4) code word: 1011011
 Check for errors.
 
 Solution:
-Positions: p1 p2 d1 p4 d2 d3 d4
-Received:   1  0  1  1  0  1  1
+Position layout in Hamming(7,4):
+Position:     1   2   3   4   5   6   7
+Type:        p1  p2  d1  p4  d2  d3  d4
+Received:     1   0   1   1   0   1   1
 
-Check p1 (positions 1,3,5,7): 1⊕1⊕0⊕1 = 1 (error!)
-Check p2 (positions 2,3,6,7): 0⊕1⊕1⊕1 = 1 (error!)
-Check p4 (positions 4,5,6,7): 1⊕0⊕1⊕1 = 1 (error!)
+Parity check positions (each parity bit checks positions with that bit set):
+- p1 (bit 1) checks positions 1,3,5,7 (binary: xxx1)
+- p2 (bit 2) checks positions 2,3,6,7 (binary: xx1x)
+- p4 (bit 4) checks positions 4,5,6,7 (binary: x1xx)
 
-Error position = 1 + 2 + 4 = 7
+Syndrome calculation (XOR of checked bits):
+Check p1 (pos 1,3,5,7): 1⊕1⊕0⊕1 = 1 (syndrome bit s1 = 1)
+Check p2 (pos 2,3,6,7): 0⊕1⊕1⊕1 = 1 (syndrome bit s2 = 1)
+Check p4 (pos 4,5,6,7): 1⊕0⊕1⊕1 = 1 (syndrome bit s4 = 1)
 
-Bit 7 is incorrect. Correct code: 1011010
-Data bits (positions 3,5,6,7): 1010 ✓
+Syndrome = s4 s2 s1 = 111 (binary) = 7 (decimal)
+Error at position 7!
+
+Correct bit 7: 1011011 → 1011010
+Data bits (positions 3,5,6,7): d1=1, d2=0, d3=1, d4=0 → 1010 ✓
 ```
 
 **Problem 12 (Token Bucket - GATE Pattern):**

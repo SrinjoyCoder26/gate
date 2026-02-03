@@ -1125,10 +1125,14 @@ Solution:
 1. Decompose RHS: A→B, A→C, B→C, AB→C
 
 2. Check extraneous attributes:
-   - In AB→C: Is A extraneous? B⁺={B,C}, C∈B⁺ ✓
-     So AB→C redundant (covered by B→C)
-   - Is A→C redundant? A⁺ under {A→B, B→C} = {A,B,C}
-     C ∈ A⁺, so A→C is redundant
+   - In AB→C: Is A extraneous?
+     Compute B⁺ using {A→B, A→C, B→C} (excluding AB→C): B⁺={B,C}
+     Since C ∈ B⁺, A is extraneous in AB→C
+     So AB→C is redundant (covered by B→C)
+   
+   - Is A→C redundant?
+     Compute A⁺ under {A→B, B→C} (excluding A→C): A⁺={A,B,C}
+     Since C ∈ A⁺, A→C is redundant (derivable through A→B→C)
 
 3. Remove redundant FDs:
    Canonical cover: {A→B, B→C} ✓

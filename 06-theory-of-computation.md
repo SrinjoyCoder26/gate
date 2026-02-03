@@ -1066,8 +1066,14 @@ From Arden's: q2 = q1·a·(a+b)*
               q1 = q0·a
 So: q2 = q0·a·a·(a+b)* = q0·aa(a+b)*
 
-From q0 = ε + q0·b = b* (Arden's)
-Final: q2 = b*aa(a+b)* ✓
+Substitute q1 into q0:
+q0 = ε + q0·b + q0·a·b = ε + q0·(b + ab)
+From Arden's: q0 = (b + ab)* = (b(ε + a))*
+
+Final: q2 = (b + ab)*·aa(a+b)* ✓
+
+Simplified: Strings with any number of b's and ab's, followed by aa,
+            followed by any combination of a's and b's
 ```
 
 **Problem 11 (Rice's Theorem Application - GATE Pattern):**

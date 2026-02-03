@@ -1223,13 +1223,29 @@ Insert 10: Tree is just [10]
 Insert 20: Tree becomes 10→20 (right child)
            BF(10) = -1, balanced
 
-Insert 15: Tree becomes 10→20←15
-           BF(10) = -2 (unbalanced, RR case? No, RL case!)
+Insert 15: Tree becomes:
+              10
+                \
+                 20
+                /
+               15
+           BF(10) = -2 (unbalanced, RL case!)
            
-RL Rotation needed:
-Step 1: Right rotate at 20
-        10→15→20
-Step 2: Left rotate at 10
+RL Rotation needed (Right-Left imbalance):
+Step 1: Right rotate at 20 (right child of unbalanced node)
+        - 15 becomes right child of 10
+        - 20 becomes right child of 15
+              10
+                \
+                 15
+                   \
+                    20
+
+Step 2: Left rotate at 10 (unbalanced node)
+        - 15 becomes root
+        - 10 becomes left child of 15
+        - 20 stays right child of 15
+        
         Final:  15
                /  \
               10   20 ✓
